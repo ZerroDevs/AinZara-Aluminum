@@ -38,6 +38,23 @@
       btn_download_cad: "Download CAD (DWG)",
       btn_download_catalog: "Technical Sheet (PDF)",
 
+      // Drawer Specific Keys
+      drawer_explore_series: "7 Series • 14 Profiles",
+      drawer_matrix_desc: "Complete Technical Specifications",
+      drawer_quick_actions: "Quick Actions",
+      drawer_download_catalog: "Catalog PDF",
+      drawer_factory_badge: "Tripoli Industrial Complex",
+      drawer_factory_hours: "Sat – Thu: 08:00 – 17:00",
+      drawer_more_contacts: "All 5 Department Lines",
+      drawer_direct_channels: "Direct Factory Lines",
+      drawer_desc_sliding: "Lift & Slide • Heavy Monorail",
+      drawer_desc_door_window: "Thermal-Break & Standard Casements",
+      drawer_desc_facade: "Structural & Semi-Structural Glazing",
+      drawer_desc_folding: "Heavy-Duty Bi-Fold Thermal Systems",
+      drawer_desc_office: "Double Glass Acoustic Partitions",
+      drawer_desc_roof: "Veranda & Wintergarden Roofs",
+      drawer_desc_vertical: "Automated Motorized Guillotine",
+
       // Categories
       cat_all: "All Systems Matrix",
       cat_sliding: "Sliding Systems",
@@ -145,6 +162,23 @@
       btn_call_voice: "اتصال هاتفي",
       btn_download_cad: "تحميل كاد (DWG)",
       btn_download_catalog: "تحميل الكتالوج (PDF)",
+
+      // Drawer Specific Keys
+      drawer_explore_series: "7 سلاسل • 14 قطاعاً",
+      drawer_matrix_desc: "المواصفات الفنية والقطاعات الكاملة",
+      drawer_quick_actions: "إجراءات سريعة",
+      drawer_download_catalog: "كتالوج PDF",
+      drawer_factory_badge: "مجمع طرابلس الصناعي",
+      drawer_factory_hours: "السبت – الخميس: 08:00 – 17:00",
+      drawer_more_contacts: "كافة خطوط الإدارات والمصنع",
+      drawer_direct_channels: "قنوات الاتصال المباشرة للمصنع",
+      drawer_desc_sliding: "سحب ورفع هيدروليكي • مونوريل",
+      drawer_desc_door_window: "مفصلي عازل حرارياً • اقتصادي",
+      drawer_desc_facade: "واجهات زجاجية هيكلية ونصف هيكلية",
+      drawer_desc_folding: "أبواب طي حرارية للمساحات الواسعة",
+      drawer_desc_office: "قواطع زجاجية مزدوجة عازلة للصوت",
+      drawer_desc_roof: "أسقف قباب وحدائق شتوية معزولة",
+      drawer_desc_vertical: "سحب رأسي أوتوماتيكي بمحرك ذكي",
 
       // Categories
       cat_all: "مصفوفة الأنظمة الكاملة",

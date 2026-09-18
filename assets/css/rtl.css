@@ -44,16 +44,41 @@
 /* Mobile Navigation Drawer */
 [dir="rtl"] .mobile-drawer {
   left: auto;
-  right: -320px;
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+  right: 0;
+  transform: translateX(100%);
+  box-shadow: -8px 0 32px rgba(7, 37, 61, 0.25);
 }
 
 [dir="rtl"] .mobile-drawer.active {
-  transform: translateX(-320px);
+  transform: translateX(0);
 }
 
 [dir="rtl"] .drawer-accordion-btn {
   text-align: right;
+}
+
+[dir="rtl"] .drawer-accordion-title-wrap {
+  text-align: right;
+}
+
+[dir="rtl"] .drawer-nav-link:hover,
+[dir="rtl"] .drawer-nav-link.active {
+  border-left: none;
+  border-right: 3px solid var(--color-secondary);
+}
+
+[dir="rtl"] .drawer-link-arrow {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .sublink-arrow {
+  transform: scaleX(-1);
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .drawer-sublink {
+  padding: 0.7rem 1.75rem 0.7rem 1.25rem;
 }
 
 /* Stats */

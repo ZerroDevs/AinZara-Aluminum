@@ -1,6 +1,6 @@
 /**
  * Mobile Drawer Navigation & Active Route Management
- * Uses multi-layer binding (direct handler, global delegation, window API) for 100% reliability across all mobile devices
+ * Uses unified document delegation for 100% reliability across dynamic header injection and all mobile touchscreens
  */
 
 (function () {
@@ -9,16 +9,24 @@
   function openDrawer() {
     const drawer = document.getElementById('mobile-drawer');
     const backdrop = document.getElementById('mobile-drawer-backdrop');
-    if (drawer) drawer.classList.add('active');
-    if (backdrop) backdrop.classList.add('active');
+    if (drawer) {
+      drawer.classList.add('active');
+    }
+    if (backdrop) {
+      backdrop.classList.add('active');
+    }
     document.body.style.overflow = 'hidden';
   }
 
   function closeDrawer() {
     const drawer = document.getElementById('mobile-drawer');
     const backdrop = document.getElementById('mobile-drawer-backdrop');
-    if (drawer) drawer.classList.remove('active');
-    if (backdrop) backdrop.classList.remove('active');
+    if (drawer) {
+      drawer.classList.remove('active');
+    }
+    if (backdrop) {
+      backdrop.classList.remove('active');
+    }
     document.body.style.overflow = '';
   }
 
@@ -27,66 +35,44 @@
     const content = document.getElementById('drawer-systems-content');
     if (!content) return;
 
-    const isExpanded = btn ? (btn.getAttribute('aria-expanded') === 'true') : content.classList.contains('active');
-    const nextState = !isExpanded;
+    const isCurrentlyExpanded = btn.getAttribute('aria-expanded') === 'true' || content.classList.contains('active');
+    const nextState = !isCurrentlyExpanded;
 
-    if (btn) {
-      btn.setAttribute('aria-expanded', String(nextState));
-    }
-
+    btn.setAttribute('aria-expanded', String(nextState));
     if (nextState) {
+      btn.classList.add('open');
       content.classList.add('active');
-      content.style.setProperty('display', 'block', 'important');
     } else {
+      btn.classList.remove('open');
       content.classList.remove('active');
-      content.style.setProperty('display', 'none', 'important');
     }
   }
 
-  // Direct element binding for maximum responsiveness on iOS and Android
-  function bindDrawerEvents() {
-    const toggleBtn = document.getElementById('mobile-menu-toggle');
-    if (toggleBtn) {
-      toggleBtn.onclick = function (e) {
-        if (e) e.preventDefault();
-        openDrawer();
-      };
-    }
+  function toggleDeptContacts(btn) {
+    if (!btn) btn = document.getElementById('drawer-dept-toggle');
+    const content = document.getElementById('drawer-dept-content');
+    if (!content) return;
 
-    const closeBtn = document.getElementById('drawer-close-btn');
-    if (closeBtn) {
-      closeBtn.onclick = function (e) {
-        if (e) e.preventDefault();
-        closeDrawer();
-      };
-    }
+    const isCurrentlyExpanded = btn.getAttribute('aria-expanded') === 'true' || content.classList.contains('active');
+    const nextState = !isCurrentlyExpanded;
 
-    const backdrop = document.getElementById('mobile-drawer-backdrop');
-    if (backdrop) {
-      backdrop.onclick = function (e) {
-        if (e) e.preventDefault();
-        closeDrawer();
-      };
-    }
-
-    const accordionBtn = document.getElementById('drawer-systems-btn');
-    if (accordionBtn) {
-      accordionBtn.onclick = function (e) {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        toggleSystemsAccordion(accordionBtn);
-      };
+    btn.setAttribute('aria-expanded', String(nextState));
+    if (nextState) {
+      btn.classList.add('open');
+      content.classList.add('active');
+    } else {
+      btn.classList.remove('open');
+      content.classList.remove('active');
     }
   }
 
-  // Global event delegation as fallback
+  // Unified global event delegation - resilient against dynamic DOM injection
   document.addEventListener('click', function (e) {
-    // 1. Mobile menu toggle button
+    // 1. Mobile menu toggle button (hamburger)
     const toggleBtn = e.target.closest('#mobile-menu-toggle');
     if (toggleBtn) {
       e.preventDefault();
+      e.stopPropagation();
       openDrawer();
       return;
     }
@@ -95,26 +81,73 @@
     const closeBtn = e.target.closest('#drawer-close-btn');
     if (closeBtn) {
       e.preventDefault();
+      e.stopPropagation();
       closeDrawer();
       return;
     }
 
-    // 3. Drawer backdrop
+    // 3. Drawer backdrop tap
     if (e.target.id === 'mobile-drawer-backdrop') {
       e.preventDefault();
+      e.stopPropagation();
       closeDrawer();
       return;
     }
 
     // 4. Architectural Systems accordion button inside drawer
-    const accordionBtn = e.target.closest('#drawer-systems-btn, .drawer-accordion-btn');
-    if (accordionBtn) {
+    const systemsBtn = e.target.closest('#drawer-systems-btn, .drawer-accordion-btn');
+    if (systemsBtn) {
       e.preventDefault();
       e.stopPropagation();
-      toggleSystemsAccordion(accordionBtn);
+      toggleSystemsAccordion(systemsBtn);
       return;
     }
+
+    // 5. Department contacts toggle inside drawer
+    const deptBtn = e.target.closest('#drawer-dept-toggle, .drawer-dept-toggle');
+    if (deptBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleDeptContacts(deptBtn);
+      return;
+    }
+
+    // 6. Request a Quote button inside drawer
+    const rfqAction = e.target.closest('.drawer-quick-actions [data-action="open-rfq"]');
+    if (rfqAction) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeDrawer();
+      const modal = document.getElementById('rfq-modal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      return;
+    }
+
+    // 7. Auto-close drawer on navigating through links
+    const navLink = e.target.closest('.drawer-nav-link, .drawer-sublink, .drawer-brand');
+    if (navLink) {
+      // Allow default link navigation to proceed, but close the drawer smoothly
+      closeDrawer();
+    }
   });
+
+  // Touch event optimization for responsive feel on iOS and Android
+  document.addEventListener('touchstart', function (e) {
+    const toggleBtn = e.target.closest('#mobile-menu-toggle');
+    if (toggleBtn) {
+      toggleBtn.style.opacity = '0.7';
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', function (e) {
+    const toggleBtn = e.target.closest('#mobile-menu-toggle');
+    if (toggleBtn) {
+      toggleBtn.style.opacity = '';
+    }
+  }, { passive: true });
 
   // Highlight active links based on current path
   function highlightActiveLinks() {
@@ -130,20 +163,15 @@
   }
 
   // Lifecycle registrations
-  document.addEventListener('DOMContentLoaded', () => {
-    bindDrawerEvents();
-    highlightActiveLinks();
-  });
-
-  document.addEventListener('headerLoaded', () => {
-    bindDrawerEvents();
-    highlightActiveLinks();
-  });
+  document.addEventListener('DOMContentLoaded', highlightActiveLinks);
+  document.addEventListener('headerLoaded', highlightActiveLinks);
 
   // Expose global API
   window.AinZaraNav = {
     openDrawer: openDrawer,
     closeDrawer: closeDrawer,
-    toggleAccordion: toggleSystemsAccordion
+    toggleAccordion: toggleSystemsAccordion,
+    toggleDept: toggleDeptContacts
   };
 })();
+

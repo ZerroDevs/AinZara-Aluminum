@@ -192,11 +192,17 @@ def build_sitemap_xml(base_url, repo_root):
                 lastmod_elem = ET.SubElement(url_elem, "lastmod")
                 lastmod_elem.text = format_iso_date(fpath)
 
-                changefreq_elem = ET.SubElement(url_elem, "changefreq")
-                changefreq_elem.text = freq
-
-                priority_elem = ET.SubElement(url_elem, "priority")
-                priority_elem.text = prio
+                # Master catalog gets higher priority in indexing
+                if "Master-Architectural-Catalog" in fname:
+                    changefreq_elem = ET.SubElement(url_elem, "changefreq")
+                    changefreq_elem.text = "weekly"
+                    priority_elem = ET.SubElement(url_elem, "priority")
+                    priority_elem.text = "0.9"
+                else:
+                    changefreq_elem = ET.SubElement(url_elem, "changefreq")
+                    changefreq_elem.text = freq
+                    priority_elem = ET.SubElement(url_elem, "priority")
+                    priority_elem.text = prio
 
     # Format pretty XML string
     raw_xml = ET.tostring(urlset, encoding="utf-8")

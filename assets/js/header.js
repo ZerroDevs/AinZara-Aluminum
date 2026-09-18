@@ -58,6 +58,11 @@
             <a href="category.html?cat=office" class="dropdown-item"><span data-i18n="cat_office">Office Partitions</span><span class="dropdown-item-code">IDA</span></a>
             <a href="category.html?cat=roof" class="dropdown-item"><span data-i18n="cat_roof">Skylight & Roof Systems</span><span class="dropdown-item-code">URAL</span></a>
             <a href="category.html?cat=vertical" class="dropdown-item"><span data-i18n="cat_vertical">Vertical Guillotine Systems</span><span class="dropdown-item-code">LOGAN</span></a>
+            <div style="height: 1px; background: rgba(255,255,255,0.12); margin: 0.35rem 0;"></div>
+            <a href="assets/downloads/pdf/AinZara-Master-Architectural-Catalog.pdf" class="dropdown-item" download="AinZara-Master-Architectural-Catalog.pdf" target="_blank" style="color: #60A5FA; font-weight: 700;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span data-i18n="drawer_download_catalog">Master Catalog (PDF)</span>
+            </a>
           </div>
         </div>
         <a href="references.html" class="nav-link" data-nav="references" data-i18n="nav_references">References</a>
@@ -88,12 +93,12 @@
         <span class="drawer-brand-subtitle" data-i18n="brand_tagline">Glass Processing & Aluminum Manufacturing</span>
       </div>
     </a>
-    <div class="drawer-header-controls">
-      <button type="button" class="lang-btn lang-toggle-btn drawer-lang-btn" aria-label="Toggle Language">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-        <span class="drawer-lang-label">العربية</span>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <button type="button" class="drawer-lang-btn lang-toggle-btn" title="Switch Language / تغيير اللغة">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <span class="lang-short-label">العربية</span>
       </button>
-      <button type="button" class="drawer-close-btn" id="drawer-close-btn" aria-label="Close Menu">&times;</button>
+      <button type="button" class="drawer-close-btn" id="drawer-close" aria-label="Close Navigation Drawer">&times;</button>
     </div>
   </div>
 
@@ -102,7 +107,7 @@
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
       <span data-i18n="btn_rfq">Request a Quote</span>
     </button>
-    <a href="products.html#downloads" class="drawer-action-btn secondary">
+    <a href="assets/downloads/pdf/AinZara-Master-Architectural-Catalog.pdf" class="drawer-action-btn secondary" download="AinZara-Master-Architectural-Catalog.pdf" target="_blank">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
       <span data-i18n="drawer_download_catalog">Catalog PDF</span>
     </a>
@@ -264,7 +269,6 @@
     <div class="drawer-phone-list">
       <div class="drawer-phone-item">
         <div class="drawer-phone-info">
-          <span class="drawer-phone-role" data-i18n="line_1_role">HQ & Factory</span>
           <a href="tel:0924295050" class="drawer-phone-number phone-digits">+218 92 429 5050</a>
         </div>
         <div class="drawer-phone-actions">
@@ -279,7 +283,6 @@
 
       <div class="drawer-phone-item">
         <div class="drawer-phone-info">
-          <span class="drawer-phone-role" data-i18n="line_2_role">Sales & Estimating</span>
           <a href="tel:0916141616" class="drawer-phone-number phone-digits">+218 91 614 1616</a>
         </div>
         <div class="drawer-phone-actions">
@@ -294,14 +297,13 @@
     </div>
 
     <button type="button" class="drawer-dept-toggle" id="drawer-dept-toggle" aria-expanded="false">
-      <span data-i18n="drawer_more_contacts">All 5 Department Lines</span>
+      <span data-i18n="drawer_more_contacts">All 5 Direct Lines</span>
       <svg class="dept-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
 
     <div class="drawer-dept-content" id="drawer-dept-content">
       <div class="drawer-phone-item compact">
         <div class="drawer-phone-info">
-          <span class="drawer-phone-role" data-i18n="line_3_role">Engineering Desk</span>
           <a href="tel:0922117555" class="drawer-phone-number phone-digits">+218 92 211 7555</a>
         </div>
         <div class="drawer-phone-actions">
@@ -316,7 +318,6 @@
 
       <div class="drawer-phone-item compact">
         <div class="drawer-phone-info">
-          <span class="drawer-phone-role" data-i18n="line_4_role">Voice Calls Only</span>
           <a href="tel:0915520267" class="drawer-phone-number phone-digits">+218 91 552 0267</a>
         </div>
         <div class="drawer-phone-actions">
@@ -329,7 +330,6 @@
 
       <div class="drawer-phone-item compact">
         <div class="drawer-phone-info">
-          <span class="drawer-phone-role" data-i18n="line_5_role">Customer Service</span>
           <a href="tel:0916808225" class="drawer-phone-number phone-digits">+218 91 680 8225</a>
         </div>
         <div class="drawer-phone-actions">

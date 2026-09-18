@@ -1639,7 +1639,7 @@ ul, ol {
 .phone-card-top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 0.875rem;
 }
 

@@ -518,7 +518,7 @@ def generate_pdf(sys_info):
     sign_y = notes_bottom - 18.0
     cs.append(text_cmd("F1", 7.5, (0.30, 0.35, 0.42), 46.0, sign_y, "FACTORY DIRECTIVE:"))
     cs.append(text_cmd("F2", 7.5, (0.30, 0.35, 0.42), 140.0, sign_y, "Official technical specifications verified for tender submissions, fabrication, and structural installation."))
-    cs.append(text_cmd("F1", 7.5, (0.043, 0.227, 0.376), 46.0, sign_y - 12.0, "ENGINEERING DESK:"))
+    cs.append(text_cmd("F1", 7.5, (0.043, 0.227, 0.376), 46.0, sign_y - 12.0, "DIRECT CONTACT:"))
     cs.append(text_cmd("F2", 7.5, (0.30, 0.35, 0.42), 140.0, sign_y - 12.0, "+218 92 429 5050  |  +218 91 614 1616  |  Tripoli Industrial Complex, Libya  |  www.ainzara.ly"))
 
     # Bottom Footer Text

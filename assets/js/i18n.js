@@ -37,6 +37,10 @@
       btn_call_voice: "Voice Call",
       btn_download_cad: "Download CAD (DWG)",
       btn_download_catalog: "Technical Sheet (PDF)",
+      btn_download_master_catalog: "Download Master Catalog (PDF)",
+      master_catalog_title: "Ain Zara Master Architectural Catalog (PDF)",
+      master_catalog_badge: "Comprehensive Edition 2026 • 18 Pages",
+      master_catalog_desc: "Complete technical dossier featuring all 14 extrusion systems, structural cross-sections, thermal performance data, and IGU glass specifications.",
 
       // Drawer Specific Keys
       drawer_explore_series: "7 Series • 14 Profiles",
@@ -45,7 +49,7 @@
       drawer_download_catalog: "Catalog PDF",
       drawer_factory_badge: "Tripoli Industrial Complex",
       drawer_factory_hours: "Sat – Thu: 08:00 – 17:00",
-      drawer_more_contacts: "All 5 Department Lines",
+      drawer_more_contacts: "All 5 Direct Lines",
       drawer_direct_channels: "Direct Factory Lines",
       drawer_desc_sliding: "Lift & Slide • Heavy Monorail",
       drawer_desc_door_window: "Thermal-Break & Standard Casements",
@@ -162,6 +166,10 @@
       btn_call_voice: "اتصال هاتفي",
       btn_download_cad: "تحميل كاد (DWG)",
       btn_download_catalog: "تحميل الكتالوج (PDF)",
+      btn_download_master_catalog: "تحميل الكتالوج الشامل (PDF)",
+      master_catalog_title: "كتالوج عين زارة المعماري الشامل (PDF)",
+      master_catalog_badge: "الإصدار الشامل 2026 • 18 صفحة",
+      master_catalog_desc: "ملف تقني شامل يتضمن كافة القطاعات الـ 14، المقاطع الهندسية، بيانات العزل الحراري، ومواصفات الزجاج المزدوج.",
 
       // Drawer Specific Keys
       drawer_explore_series: "7 سلاسل • 14 قطاعاً",
@@ -170,7 +178,7 @@
       drawer_download_catalog: "كتالوج PDF",
       drawer_factory_badge: "مجمع طرابلس الصناعي",
       drawer_factory_hours: "السبت – الخميس: 08:00 – 17:00",
-      drawer_more_contacts: "كافة خطوط الإدارات والمصنع",
+      drawer_more_contacts: "كافة خطوط الاتصال الـ 5",
       drawer_direct_channels: "قنوات الاتصال المباشرة للمصنع",
       drawer_desc_sliding: "سحب ورفع هيدروليكي • مونوريل",
       drawer_desc_door_window: "مفصلي عازل حرارياً • اقتصادي",

@@ -28,6 +28,15 @@
       mobile_nav_title: "Navigation Menu",
       quick_contact: "Direct Inquiries",
       call_only: "Voice",
+      line_1_role: "HQ & Factory",
+      line_2_role: "Sales & Estimating",
+      line_3_role: "Engineering Desk",
+      line_4_role: "Voice Calls Only",
+      line_5_role: "Customer Service",
+      btn_call: "Call",
+      btn_call_voice: "Voice Call",
+      btn_download_cad: "Download CAD (DWG)",
+      btn_download_catalog: "Technical Sheet (PDF)",
 
       // Categories
       cat_all: "All Systems Matrix",
@@ -127,6 +136,15 @@
       mobile_nav_title: "قائمة التصفح",
       quick_contact: "الاتصال المباشر",
       call_only: "مكالمات فقط",
+      line_1_role: "الإدارة والمصنع",
+      line_2_role: "المبيعات والمقايسات",
+      line_3_role: "المكتب الفني",
+      line_4_role: "مكالمات صوتية فقط",
+      line_5_role: "خدمة العملاء",
+      btn_call: "اتصال",
+      btn_call_voice: "اتصال هاتفي",
+      btn_download_cad: "تحميل كاد (DWG)",
+      btn_download_catalog: "تحميل الكتالوج (PDF)",
 
       // Categories
       cat_all: "مصفوفة الأنظمة الكاملة",

@@ -141,3 +141,19 @@
   text-align: right;
 }
 
+/* Priority Phone Directory RTL */
+[dir="rtl"] .phone-digits {
+  direction: ltr !important;
+  text-align: center;
+  unicode-bidi: isolate;
+}
+
+[dir="rtl"] .phone-rank-pill .rank-hash {
+  margin-right: 0;
+  margin-left: 1px;
+}
+
+[dir="rtl"] .btn-phone-action svg {
+  margin-left: 0.25rem;
+  margin-right: 0;
+}

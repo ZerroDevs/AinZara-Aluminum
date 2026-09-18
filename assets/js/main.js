@@ -433,30 +433,65 @@
     }
   }
 
+  // Helper to map system names/codes to standard system id
+  function resolveSystemId(val) {
+    if (!val) return 'sat120';
+    const clean = val.toLowerCase().replace(/[\s_\-]/g, '');
+    const map = {
+      'sat120': 'sat120',
+      'slat64': 'slat64',
+      'wat63': 'wat63',
+      'wa55': 'wa55',
+      'wa45': 'wa45',
+      'cwa50sg': 'CWA50sg',
+      'cwa50hv': 'CWA50HV',
+      'fat70': 'fat70',
+      'fat55': 'fat55',
+      'ipa45': 'ipa45',
+      'ipa30': 'ipa30',
+      'sa65': 'sa65',
+      'sa652': 'sa65-2',
+      'gsa130': 'gsa130'
+    };
+    return map[clean] || 'sat120';
+  }
+
+  function triggerDownload(url, filename) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+    }, 200);
+  }
+
   // 4. Download Center Triggers
   function initDownloadTriggers() {
-    document.querySelectorAll('[data-download-catalog]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    document.addEventListener('click', (e) => {
+      const catBtn = e.target.closest('[data-download-catalog]');
+      if (catBtn) {
         e.preventDefault();
-        const sysName = btn.getAttribute('data-download-catalog') || 'AinZara_Technical_Catalog';
-        const lang = window.AinZaraI18n ? window.AinZaraI18n.getLang() : 'en';
-        const msg = lang === 'ar' 
-          ? `جاري تجهيز الكتالوج الفني الهندسي لنظام [${sysName}]... تم بدء التحميل.`
-          : `Preparing technical engineering spec catalog for [${sysName}]... Download started.`;
-        alert(msg);
-      });
-    });
+        const raw = catBtn.getAttribute('data-download-catalog');
+        const sysId = resolveSystemId(raw);
+        const url = `assets/downloads/pdf/${sysId}-technical-sheet.pdf`;
+        const filename = `AinZara_${sysId.toUpperCase()}_Technical_Sheet.pdf`;
+        triggerDownload(url, filename);
+        return;
+      }
 
-    document.querySelectorAll('[data-download-cad]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      const cadBtn = e.target.closest('[data-download-cad]');
+      if (cadBtn) {
         e.preventDefault();
-        const sysName = btn.getAttribute('data-download-cad') || 'AinZara_CAD_Profile';
-        const lang = window.AinZaraI18n ? window.AinZaraI18n.getLang() : 'en';
-        const msg = lang === 'ar' 
-          ? `جاري تحميل حزمة ملفات الأوتوكاد (DWG / DXF) لنظام [${sysName}].`
-          : `Downloading AutoCAD (DWG / DXF) CAD cross-section package for [${sysName}].`;
-        alert(msg);
-      });
+        const raw = cadBtn.getAttribute('data-download-cad');
+        const sysId = resolveSystemId(raw);
+        const url = `assets/downloads/cad/${sysId}-cad-profile.dwg`;
+        const filename = `AinZara_${sysId.toUpperCase()}_AutoCAD_Profile.dwg`;
+        triggerDownload(url, filename);
+        return;
+      }
     });
   }
 

@@ -420,6 +420,16 @@
           }
         }
 
+        // Auto-activate 3D tab if view=3d is requested
+        if (params.get('view') === '3d') {
+          const targetTab = targetProfile 
+            ? document.querySelector(`.card-view-tab[data-target-panel="3d-${targetProfile}"]`)
+            : document.querySelector('.card-view-tab[data-target-panel^="3d-"]');
+          if (targetTab) {
+            setTimeout(() => targetTab.click(), 100);
+          }
+        }
+
         // Re-bind lightbox and download listeners
         if (window.AinZaraApp && window.AinZaraApp.initDownloadTriggers) {
           window.AinZaraApp.initDownloadTriggers();

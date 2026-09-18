@@ -101,20 +101,76 @@
         this.createHud();
       }
 
-      // 6. Eye-Catching Disclaimer Notice
+      // 6. Responsive, Dismissible & Compact 3D Disclaimer Notice
       const disclaimer = document.createElement('div');
       disclaimer.className = 'viewer-3d-disclaimer';
       const disclaimerNotice = (window.AinZaraI18n && window.AinZaraI18n.t('badge_disclaimer_notice')) || 'IMPORTANT NOTE';
+      const disclaimerNoticeShort = (window.AinZaraI18n && window.AinZaraI18n.t('badge_disclaimer_short')) || 'NOTE';
       const disclaimerText = (window.AinZaraI18n && window.AinZaraI18n.t('note_3d_disclaimer')) ||
         'Interactive 3D representation • This is for demonstration purposes only and may not accurately reflect physical reality • For exact manufacturing specifications refer to official 2D CAD schematic';
+      const disclaimerTextShort = (window.AinZaraI18n && window.AinZaraI18n.t('note_3d_disclaimer_short')) ||
+        'Illustration only • Refer to 2D CAD for exact manufacturing specifications';
+
       disclaimer.innerHTML = `
-        <div class="disclaimer-badge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-          <span data-i18n="badge_disclaimer_notice">${disclaimerNotice}</span>
+        <div class="disclaimer-content">
+          <div class="disclaimer-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span class="badge-text-full" data-i18n="badge_disclaimer_notice">${disclaimerNotice}</span>
+            <span class="badge-text-short" data-i18n="badge_disclaimer_short">${disclaimerNoticeShort}</span>
+          </div>
+          <span class="disclaimer-text disclaimer-text-full" data-i18n="note_3d_disclaimer">${disclaimerText}</span>
+          <span class="disclaimer-text disclaimer-text-short" data-i18n="note_3d_disclaimer_short">${disclaimerTextShort}</span>
         </div>
-        <span class="disclaimer-text" data-i18n="note_3d_disclaimer">${disclaimerText}</span>
+        <div class="disclaimer-controls">
+          <button type="button" class="disclaimer-expand-btn" title="Toggle full note / عرض التفاصيل" aria-label="Toggle full note">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <button type="button" class="disclaimer-close-btn" title="Dismiss / إخفاء الملاحظة" aria-label="Dismiss note">&times;</button>
+        </div>
       `;
       this.container.appendChild(disclaimer);
+
+      // Restore pill button (shown when user dismisses the disclaimer)
+      const restoreBtn = document.createElement('button');
+      restoreBtn.type = 'button';
+      restoreBtn.className = 'viewer-3d-disclaimer-restore';
+      restoreBtn.title = 'View 3D Disclaimer / ملاحظة المخطط';
+      restoreBtn.setAttribute('aria-label', 'View 3D Disclaimer');
+      restoreBtn.style.display = 'none';
+      restoreBtn.innerHTML = `
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        <span data-i18n="badge_disclaimer_short">${disclaimerNoticeShort}</span>
+      `;
+      this.container.appendChild(restoreBtn);
+
+      const closeBtn = disclaimer.querySelector('.disclaimer-close-btn');
+      const expandBtn = disclaimer.querySelector('.disclaimer-expand-btn');
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          disclaimer.style.display = 'none';
+          restoreBtn.style.display = 'inline-flex';
+        });
+      }
+
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          disclaimer.style.display = '';
+          restoreBtn.style.display = 'none';
+        });
+      }
+
+      if (expandBtn) {
+        expandBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          disclaimer.classList.toggle('is-expanded');
+          const isExp = disclaimer.classList.contains('is-expanded');
+          const svg = expandBtn.querySelector('svg');
+          if (svg) svg.style.transform = isExp ? 'rotate(180deg)' : '';
+        });
+      }
 
       // Three.js Core Setup
       const width = this.canvasContainer.clientWidth || 380;

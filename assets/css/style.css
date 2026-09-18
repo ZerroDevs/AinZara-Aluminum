@@ -3088,27 +3088,37 @@ ul, ol {
   top: 10px;
   left: 10px;
   right: 10px;
-  background-color: rgba(15, 23, 42, 0.95);
+  background-color: rgba(15, 23, 42, 0.94);
   color: #FEF3C7;
   font-size: 0.6875rem;
   line-height: 1.4;
   font-weight: 600;
   padding: 6px 10px;
   border-radius: var(--radius-sm);
-  border: 1.5px solid #F59E0B;
+  border: 1px solid #F59E0B;
   border-left: 4px solid #F59E0B;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   z-index: 12;
-  pointer-events: none;
+  pointer-events: auto;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [dir="rtl"] .viewer-3d-disclaimer {
-  border-left: 1.5px solid #F59E0B;
+  border-left: 1px solid #F59E0B;
   border-right: 4px solid #F59E0B;
+}
+
+.viewer-3d-disclaimer .disclaimer-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
 }
 
 .viewer-3d-disclaimer .disclaimer-badge {
@@ -3131,8 +3141,96 @@ ul, ol {
   color: #0F172A;
 }
 
+.viewer-3d-disclaimer .badge-text-short {
+  display: none;
+}
+
 .viewer-3d-disclaimer .disclaimer-text {
   flex: 1;
+  min-width: 0;
+}
+
+.viewer-3d-disclaimer .disclaimer-text-short {
+  display: none;
+}
+
+.viewer-3d-disclaimer .disclaimer-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.viewer-3d-disclaimer .disclaimer-expand-btn,
+.viewer-3d-disclaimer .disclaimer-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #FBBF24;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+  transition: all var(--transition-fast);
+}
+
+.viewer-3d-disclaimer .disclaimer-expand-btn {
+  display: none;
+}
+
+.viewer-3d-disclaimer .disclaimer-expand-btn svg {
+  transition: transform var(--transition-fast);
+}
+
+.viewer-3d-disclaimer .disclaimer-expand-btn:hover,
+.viewer-3d-disclaimer .disclaimer-close-btn:hover {
+  background: #F59E0B;
+  color: #0F172A;
+  border-color: #F59E0B;
+}
+
+/* Floating restore pill button when dismissed */
+.viewer-3d-disclaimer-restore {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 13;
+  background: rgba(15, 23, 42, 0.90);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.6);
+  border-radius: 9999px;
+  padding: 3px 8px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  transition: all var(--transition-fast);
+}
+
+[dir="rtl"] .viewer-3d-disclaimer-restore {
+  left: auto;
+  right: 8px;
+}
+
+.viewer-3d-disclaimer-restore:hover {
+  background: #F59E0B;
+  color: #0F172A;
+  border-color: #F59E0B;
+  transform: translateY(-1px);
+}
+
+.modal-3d-window .viewer-3d-disclaimer,
+.modal-3d-window .viewer-3d-disclaimer-restore {
+  display: none !important;
 }
 
 /* Fullscreen Modal Disclaimer - Prominent Architectural Banner */
@@ -3199,7 +3297,8 @@ ul, ol {
   color: #78350F;
 }
 
-.modal-3d-window .viewer-3d-disclaimer {
+.modal-3d-window .viewer-3d-disclaimer,
+.modal-3d-window .viewer-3d-disclaimer-restore {
   display: none !important;
 }
 
@@ -3328,7 +3427,109 @@ ul, ol {
 
 @media (max-width: 768px) {
   .card-media-panel {
-    height: 300px;
+    height: 360px;
+  }
+
+  /* Compact, Non-Obtrusive 3D Disclaimer on Mobile */
+  .viewer-3d-disclaimer {
+    top: 6px !important;
+    left: 6px !important;
+    right: 6px !important;
+    padding: 3px 6px !important;
+    font-size: 0.59375rem !important;
+    gap: 4px !important;
+    border-radius: 4px !important;
+    background-color: rgba(15, 23, 42, 0.90) !important;
+    max-height: 28px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .viewer-3d-disclaimer .disclaimer-content {
+    gap: 4px !important;
+    min-width: 0 !important;
+  }
+
+  .viewer-3d-disclaimer .badge-text-full {
+    display: none !important;
+  }
+
+  .viewer-3d-disclaimer .badge-text-short {
+    display: inline !important;
+  }
+
+  .viewer-3d-disclaimer .disclaimer-badge {
+    padding: 1px 4px !important;
+    font-size: 0.53125rem !important;
+    gap: 2px !important;
+  }
+
+  .viewer-3d-disclaimer .disclaimer-badge svg {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  .viewer-3d-disclaimer .disclaimer-text-full {
+    display: none !important;
+  }
+
+  .viewer-3d-disclaimer .disclaimer-text-short {
+    display: block !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    font-size: 0.59375rem !important;
+    line-height: 1.2 !important;
+    color: #FDE68A !important;
+  }
+
+  .viewer-3d-disclaimer .disclaimer-expand-btn {
+    display: inline-flex !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .viewer-3d-disclaimer .disclaimer-close-btn {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 13px !important;
+  }
+
+  /* Expanded state on mobile if user taps chevron */
+  .viewer-3d-disclaimer.is-expanded {
+    max-height: 180px !important;
+    overflow-y: auto !important;
+    padding: 6px 8px !important;
+    align-items: flex-start !important;
+  }
+
+  .viewer-3d-disclaimer.is-expanded .disclaimer-content {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .viewer-3d-disclaimer.is-expanded .disclaimer-text-short {
+    display: none !important;
+  }
+
+  .viewer-3d-disclaimer.is-expanded .disclaimer-text-full {
+    display: block !important;
+    white-space: normal !important;
+    font-size: 0.625rem !important;
+    line-height: 1.35 !important;
+    margin-top: 2px !important;
+  }
+
+  .viewer-3d-disclaimer-restore {
+    top: 6px !important;
+    left: 6px !important;
+    padding: 2px 6px !important;
+    font-size: 0.5625rem !important;
+  }
+
+  [dir="rtl"] .viewer-3d-disclaimer-restore {
+    left: auto !important;
+    right: 6px !important;
   }
 
   /* 3D Modal Backdrop & Window Phone Optimization */

@@ -182,9 +182,14 @@
 }
 
 [dir="rtl"] .viewer-3d-disclaimer {
-  border-left: 1.5px solid #F59E0B;
+  border-left: 1px solid #F59E0B;
   border-right: 4px solid #F59E0B;
   text-align: right;
+}
+
+[dir="rtl"] .viewer-3d-disclaimer-restore {
+  left: auto !important;
+  right: 8px !important;
 }
 
 /* Priority Phone Directory RTL */

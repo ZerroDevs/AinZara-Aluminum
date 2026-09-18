@@ -55,6 +55,24 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/terms.html</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ainzara.ly/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ainzara.ly/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ainzara.ly/terms.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainzara.ly/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ainzara.ly/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ainzara.ly/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ainzara.ly/privacy.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/category.html?cat=Door-Window</loc>
     <xhtml:link rel="alternate" hreflang="ar" href="https://ainzara.ly/category.html?cat=Door-Window"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainzara.ly/category.html?cat=Door-Window"/>

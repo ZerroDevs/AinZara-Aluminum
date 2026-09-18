@@ -225,3 +225,15 @@
   transform: scaleX(-1) translateY(2px);
 }
 
+/* Policy & GDPR RTL */
+[dir="rtl"] .policy-clause-card,
+[dir="rtl"] .policy-summary-card {
+  text-align: right;
+}
+
+[dir="rtl"] .policy-meta-pill svg {
+  margin-left: 0.25rem;
+  margin-right: 0;
+}
+
+

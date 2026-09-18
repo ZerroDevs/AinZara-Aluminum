@@ -159,6 +159,8 @@
     else if (currentPath.includes('downloads.html')) page = 'downloads';
     else if (currentPath.includes('references.html')) page = 'references';
     else if (currentPath.includes('contact.html')) page = 'contact';
+    else if (currentPath.includes('terms.html')) page = 'terms';
+    else if (currentPath.includes('privacy.html')) page = 'privacy';
 
     document.querySelectorAll(`[data-nav="${page}"]`).forEach(l => l.classList.add('active'));
   }

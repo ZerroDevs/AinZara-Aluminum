@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 """
 AinZara-Aluminum - Technical Sheet (PDF) & AutoCAD (DWG/DXF) Generator
-Produces authentic, standard-compliant technical spec sheets and CAD files
-for all 14 architectural systems.
+Produces authentic, standard-compliant technical spec sheets with:
+1. No overlapping text (pure absolute 1 0 0 1 x y Tm positioning for all text)
+2. Transparent logo in header band
+3. Transparent watermark from assets/Images/Logo1.png centered at 9% opacity
+4. High-resolution CAD schematic cross-section centered in its dedicated viewport
+5. Full mechanical performance specification table
+6. Fabrication compliance and quality standards
 """
 
 import os
+import zlib
+from PIL import Image
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF_DIR = os.path.join(BASE_DIR, "assets", "downloads", "pdf")
@@ -13,6 +20,26 @@ CAD_DIR = os.path.join(BASE_DIR, "assets", "downloads", "cad")
 
 os.makedirs(PDF_DIR, exist_ok=True)
 os.makedirs(CAD_DIR, exist_ok=True)
+
+# Process Logo1.png once for Header Logo and Watermark
+LOGO_PATH = os.path.join(BASE_DIR, "assets", "Images", "Logo1.png")
+orig_logo = Image.open(LOGO_PATH)
+
+# 1. Header Logo (120x120 pixels, rendered at ~48x48 pt in header)
+hdr_logo_img = orig_logo.resize((120, 120), Image.Resampling.LANCZOS)
+hl_r, hl_g, hl_b, hl_a = hdr_logo_img.split()
+hdr_rgb_img = Image.merge('RGB', (hl_r, hl_g, hl_b))
+hdr_rgb_bytes = zlib.compress(hdr_rgb_img.tobytes())
+hdr_alpha_bytes = zlib.compress(hl_a.tobytes())
+
+# 2. Watermark Logo (500x500 pixels, soft 9% opacity, no background)
+wm_img = orig_logo.resize((500, 500), Image.Resampling.LANCZOS)
+wm_r, wm_g, wm_b, wm_a = wm_img.split()
+wm_rgb_img = Image.merge('RGB', (wm_r, wm_g, wm_b))
+# 9% max opacity for subtle architectural background watermark
+wm_soft_alpha = wm_a.point(lambda p: int(p * 0.09))
+wm_rgb_bytes = zlib.compress(wm_rgb_img.tobytes())
+wm_alpha_bytes = zlib.compress(wm_soft_alpha.tobytes())
 
 # System Catalog Master Data
 SYSTEMS = [
@@ -289,11 +316,21 @@ def get_jpeg_dimensions(img_bytes):
 def escape_pdf(text):
     return text.replace('\\', '\\\\').replace('(', '\\(').replace(')', '\\)')
 
+def text_cmd(font, size, rgb, x, y, text):
+    """
+    Emits an isolated BT...ET block with absolute 1 0 0 1 x y Tm positioning.
+    Completely eliminates any relative Td coordinate bleed.
+    """
+    r, g, b = rgb
+    escaped = escape_pdf(str(text))
+    return f"BT /{font} {size} Tf {r:.3f} {g:.3f} {b:.3f} rg 1 0 0 1 {x:.2f} {y:.2f} Tm ({escaped}) Tj ET"
+
 def generate_pdf(sys_info):
     """
     Generates a pristine, standard-compliant ISO 32000-1 PDF (A4 595.28 x 841.89 pt)
-    with corporate dark navy styling, official header, embedded JPEG cross-section,
-    and mechanical performance matrix.
+    with corporate dark navy styling, official header with Logo1, subtle transparent
+    watermark, clean CAD schematic viewport, non-overlapping specification matrix,
+    and official compliance footer.
     """
     img_rel_path = sys_info["img"]
     img_abs_path = os.path.join(BASE_DIR, img_rel_path)
@@ -302,45 +339,65 @@ def generate_pdf(sys_info):
     
     img_w, img_h = get_jpeg_dimensions(img_bytes)
 
-    # Box margins: left=36, right=559 (width=523 pt).
-    # Box Y: y_bottom=445, height=260 pt.
+    # Viewport for CAD Schematic JPEG
     box_w = 523.0
-    box_h = 260.0
+    box_h = 245.0
     box_x = 36.0
-    box_y = 445.0
+    box_y = 460.0
 
-    scale = min(box_w / img_w, box_h / img_h)
+    # Margin inside box
+    pad = 12.0
+    inner_w = box_w - pad * 2
+    inner_h = box_h - pad * 2 - 20.0  # leave 20pt for title badge
+    scale = min(inner_w / img_w, inner_h / img_h)
     draw_w = img_w * scale
     draw_h = img_h * scale
-    draw_x = box_x + (box_w - draw_w) / 2.0
-    draw_y = box_y + (box_h - draw_h) / 2.0
+    draw_x = box_x + pad + (inner_w - draw_w) / 2.0
+    draw_y = box_y + pad + (inner_h - draw_h) / 2.0
 
-    # Build Content Stream
     cs = []
-    # 1. Top Corporate Header Band (Dark Navy #0B3A60)
+
+    # -------------------------------------------------------------
+    # 1. Subtle Transparent Watermark (Logo1 with no bg, ~9% opacity)
+    # -------------------------------------------------------------
+    # Centered on the page: width = 340 pt, height = 340 pt
+    wm_w = 340.0
+    wm_h = 340.0
+    wm_x = (595.28 - wm_w) / 2.0
+    wm_y = 260.0
+    cs.append(f"q {wm_w:.2f} 0 0 {wm_h:.2f} {wm_x:.2f} {wm_y:.2f} cm /Watermark Do Q")
+
+    # -------------------------------------------------------------
+    # 2. Corporate Header Band (Dark Navy #0B3A60)
+    # -------------------------------------------------------------
     cs.append("q")
-    cs.append("0.043 0.227 0.376 rg")  # #0B3A60
-    cs.append("0 770 595.28 72 re f")
-    cs.append("0.165 0.471 0.722 rg")  # Secondary Steel Blue Accent Bar
-    cs.append("0 766 595.28 4 re f")
+    cs.append("0.043 0.227 0.376 rg")  # Primary #0B3A60
+    cs.append("0 765 595.28 77 re f")
+    cs.append("0.165 0.471 0.722 rg")  # Secondary Accent #2A78B8
+    cs.append("0 761 595.28 4 re f")
     cs.append("Q")
 
-    # Header Text
-    cs.append("BT")
-    cs.append("/F1 16 Tf 1 1 1 rg 36 812 Td (AINZARA ALUMINUM & GLASS PROCESSING) Tj")
-    cs.append("/F2 9 Tf 0.85 0.90 0.95 rg 36 794 Td (Industrial Area, Tripoli, Libya  |  P.O. Box 82144  |  Tel: +218 92 429 5050  |  info@ainzara.ly) Tj")
-    cs.append("/F1 9 Tf 0.9 0.95 1.0 rg 36 778 Td (ARCHITECTURAL SYSTEMS DIVISION - OFFICIAL TECHNICAL DATA SHEET) Tj")
-    cs.append("ET")
+    # Header Logo (48x48 pt at x=36, y=778)
+    cs.append("q 48.00 0 0 48.00 36.00 778.00 cm /LogoHdr Do Q")
 
-    # 2. System Title & Series Bar
-    cs.append("BT")
-    cs.append(f"/F1 18 Tf 0.043 0.227 0.376 rg 36 738 Td ({escape_pdf(sys_info['name'])} - {escape_pdf(sys_info['title'])}) Tj")
-    cs.append(f"/F1 10 Tf 0.165 0.471 0.722 rg 36 720 Td (SERIES: {escape_pdf(sys_info['series'])}   |   SYSTEM CODE: {escape_pdf(sys_info['id'].upper())}) Tj")
-    cs.append("ET")
+    # Header Typography (Absolute Tm)
+    cs.append(text_cmd("F1", 15.0, (1.0, 1.0, 1.0), 96.0, 814.0, "AINZARA ALUMINUM & GLASS PROCESSING"))
+    cs.append(text_cmd("F2", 8.5, (0.85, 0.90, 0.95), 96.0, 798.0, "Industrial Area, Tripoli, Libya  |  P.O. Box 82144  |  Tel: +218 92 429 5050  |  info@ainzara.ly"))
+    cs.append(text_cmd("F1", 8.5, (0.45, 0.78, 1.0), 96.0, 782.0, "ARCHITECTURAL SYSTEMS DIVISION  |  OFFICIAL TECHNICAL SPECIFICATION SHEET"))
 
-    # 3. Schematic Viewport Box
+    # -------------------------------------------------------------
+    # 3. System Title & Series Identification
+    # -------------------------------------------------------------
+    sys_title = f"{sys_info['name']} - {sys_info['title']}"
+    sys_meta = f"SERIES: {sys_info['series']}   |   SYSTEM CODE: {sys_info['id'].upper()}   |   EXTRUSION: EN AW-6063 T6"
+    cs.append(text_cmd("F1", 16.0, (0.043, 0.227, 0.376), 36.0, 736.0, sys_title))
+    cs.append(text_cmd("F1", 9.5, (0.165, 0.471, 0.722), 36.0, 718.0, sys_meta))
+
+    # -------------------------------------------------------------
+    # 4. 2D CAD Schematic Viewport Box
+    # -------------------------------------------------------------
     cs.append("q")
-    cs.append("0.97 0.98 0.99 rg")
+    cs.append("0.985 0.99 1.0 rg")
     cs.append(f"{box_x} {box_y} {box_w} {box_h} re f")
     cs.append("0.80 0.84 0.88 RG 1 w")
     cs.append(f"{box_x} {box_y} {box_w} {box_h} re S")
@@ -349,26 +406,23 @@ def generate_pdf(sys_info):
     cs.append(f"{box_x} {box_y + box_h - 20} 220 20 re f")
     cs.append("Q")
 
-    cs.append("BT")
-    cs.append(f"/F1 8.5 Tf 1 1 1 rg {box_x + 8} {box_y + box_h - 14} Td (ENGINEERING 2D CAD PROFILE SCHEMATIC) Tj")
-    cs.append("ET")
+    cs.append(text_cmd("F1", 8.5, (1.0, 1.0, 1.0), box_x + 8.0, box_y + box_h - 14.0, "ENGINEERING 2D CAD PROFILE SCHEMATIC"))
 
-    # Draw Embedded Image XObject
+    # Draw Embedded CAD Cross-Section Image XObject
     cs.append(f"q {draw_w:.2f} 0 0 {draw_h:.2f} {draw_x:.2f} {draw_y:.2f} cm /Im1 Do Q")
 
-    # 4. Specification Table Header
-    tbl_y = 415.0
+    # -------------------------------------------------------------
+    # 5. Technical Specifications Matrix (Table)
+    # -------------------------------------------------------------
+    tbl_y = 430.0
     cs.append("q")
     cs.append("0.043 0.227 0.376 rg")
-    cs.append(f"36 {tbl_y} 523 20 re f")
+    cs.append(f"36.00 {tbl_y:.2f} 523.00 20.00 re f")
     cs.append("Q")
 
-    cs.append("BT")
-    cs.append(f"/F1 9.5 Tf 1 1 1 rg 46 {tbl_y + 6} Td (MECHANICAL & ARCHITECTURAL SPECIFICATION MATRIX) Tj")
-    cs.append(f"/F1 8.5 Tf 1 1 1 rg 440 {tbl_y + 6} Td (CERTIFIED RATING) Tj")
-    cs.append("ET")
+    cs.append(text_cmd("F1", 9.0, (1.0, 1.0, 1.0), 46.0, tbl_y + 6.0, "MECHANICAL & ARCHITECTURAL SPECIFICATION MATRIX"))
+    cs.append(text_cmd("F1", 8.5, (1.0, 1.0, 1.0), 430.0, tbl_y + 6.0, "MANUFACTURING STANDARD"))
 
-    # Table Rows
     rows = [
         ("Base Aluminum Alloy", sys_info["alloy"]),
         ("Frame Architectural Depth", sys_info["frame_depth"]),
@@ -382,47 +436,71 @@ def generate_pdf(sys_info):
         ("Maximum Sash Weight Capacity", sys_info["max_sash_wt"]),
     ]
 
-    row_h = 16.0
+    row_h = 16.5
     cur_y = tbl_y - row_h
     for idx, (label, val) in enumerate(rows):
-        bg_col = "0.95 0.96 0.98" if idx % 2 == 1 else "1.0 1.0 1.0"
-        cs.append(f"q {bg_col} rg 36 {cur_y} 523 {row_h} re f 0.85 0.88 0.91 RG 0.5 w 36 {cur_y} 523 {row_h} re S Q")
-        cs.append("BT")
-        cs.append(f"/F1 8 Tf 0.15 0.20 0.25 rg 46 {cur_y + 4.5} Td ({escape_pdf(label)}) Tj")
-        cs.append(f"/F2 8 Tf 0.05 0.10 0.15 rg 220 {cur_y + 4.5} Td ({escape_pdf(val)}) Tj")
-        cs.append("ET")
+        bg_col = "0.96 0.97 0.985" if idx % 2 == 1 else "1.0 1.0 1.0"
+        cs.append(f"q {bg_col} rg 36.00 {cur_y:.2f} 523.00 {row_h:.2f} re f 0.85 0.88 0.91 RG 0.5 w 36.00 {cur_y:.2f} 523.00 {row_h:.2f} re S Q")
+        
+        # Absolute text positioning for label AND value
+        cs.append(text_cmd("F1", 8.0, (0.12, 0.18, 0.24), 46.0, cur_y + 4.5, label))
+        cs.append(text_cmd("F2", 8.0, (0.05, 0.10, 0.15), 220.0, cur_y + 4.5, val))
+        
         cur_y -= row_h
 
-    # 5. Manufacturing & Quality Standards Footer Box
-    notes_y = cur_y - 8
+    # -------------------------------------------------------------
+    # 6. Fabrication Standards & Quality Box
+    # -------------------------------------------------------------
+    notes_top = cur_y - 6.0
+    box_height = 68.0
+    notes_bottom = notes_top - box_height
     cs.append("q")
-    cs.append("0.96 0.98 1.0 rg")
-    cs.append(f"36 {notes_y - 48} 523 48 re f")
+    cs.append("0.965 0.98 1.0 rg")
+    cs.append(f"36.00 {notes_bottom:.2f} 523.00 {box_height:.2f} re f")
     cs.append("0.165 0.471 0.722 RG 0.8 w")
-    cs.append(f"36 {notes_y - 48} 523 48 re S")
+    cs.append(f"36.00 {notes_bottom:.2f} 523.00 {box_height:.2f} re S")
     cs.append("Q")
 
-    cs.append("BT")
-    cs.append(f"/F1 8.5 Tf 0.043 0.227 0.376 rg 44 {notes_y - 12} Td (FABRICATION STANDARDS & QUALITY COMPLIANCE) Tj")
-    cs.append(f"/F2 7.5 Tf 0.2 0.25 0.3 rg 44 {notes_y - 24} Td (- Extrusion Tolerances: Conforms strictly to EN 12020-2 / DIN 17615 high precision architectural standard.) Tj")
-    cs.append(f"/F2 7.5 Tf 0.2 0.25 0.3 rg 44 {notes_y - 34} Td (- Surface Coating: Qualicoat Certified Electrostatic Powder Coating (60-80 microns) / Qualanod Anodizing (15-20 microns).) Tj")
-    cs.append(f"/F2 7.5 Tf 0.2 0.25 0.3 rg 44 {notes_y - 44} Td (- Gaskets: EPDM weatherseals according to DIN 7863. Hardware groove: Standard European groove compatibility.) Tj")
-    cs.append("ET")
+    cs.append(text_cmd("F1", 8.5, (0.043, 0.227, 0.376), 46.0, notes_top - 14.0, "FABRICATION STANDARDS & QUALITY COMPLIANCE"))
+    cs.append(text_cmd("F2", 7.5, (0.20, 0.25, 0.30), 46.0, notes_top - 27.0, "- Extrusion Tolerances: Conforms strictly to EN 12020-2 / DIN 17615 high precision architectural standard."))
+    cs.append(text_cmd("F2", 7.5, (0.20, 0.25, 0.30), 46.0, notes_top - 39.0, "- Surface Coating: Qualicoat Certified Electrostatic Powder Coating (60-80 microns) / Qualanod Anodizing (15-20 microns)."))
+    cs.append(text_cmd("F2", 7.5, (0.20, 0.25, 0.30), 46.0, notes_top - 51.0, "- Gaskets: EPDM weatherseals according to DIN 7863. Hardware groove: Standard European groove compatibility."))
+    cs.append(text_cmd("F2", 7.5, (0.20, 0.25, 0.30), 46.0, notes_top - 63.0, "- Quality Management: Extruded and assembled under certified ISO 9001:2015 industrial manufacturing systems."))
 
-    # 6. Bottom Signature & Disclaimer Footer Bar
+    # -------------------------------------------------------------
+    # 7. Directorate Sign-off & Verification Bar
+    # -------------------------------------------------------------
+    sign_y = notes_bottom - 18.0
+    cs.append(text_cmd("F1", 7.5, (0.30, 0.35, 0.42), 46.0, sign_y, "FACTORY DIRECTIVE:"))
+    cs.append(text_cmd("F2", 7.5, (0.30, 0.35, 0.42), 140.0, sign_y, "Official technical specifications verified for tender submissions, fabrication, and structural installation."))
+    cs.append(text_cmd("F1", 7.5, (0.043, 0.227, 0.376), 46.0, sign_y - 12.0, "ENGINEERING DESK:"))
+    cs.append(text_cmd("F2", 7.5, (0.30, 0.35, 0.42), 140.0, sign_y - 12.0, "+218 92 429 5050  |  +218 91 614 1616  |  Tripoli Industrial Complex, Libya  |  www.ainzara.ly"))
+
+    # -------------------------------------------------------------
+    # 8. Bottom Footer Bar
+    # -------------------------------------------------------------
     cs.append("q")
     cs.append("0.043 0.227 0.376 rg")
     cs.append("0 0 595.28 28 re f")
     cs.append("Q")
 
-    cs.append("BT")
-    cs.append("/F2 7.5 Tf 0.9 0.95 1.0 rg 36 10 Td (AinZara Aluminum & Glass Processing - Technical Engineering Directorate - Tripoli, Libya  |  www.ainzara.ly) Tj")
-    cs.append("/F1 7.5 Tf 1 1 1 rg 460 10 Td (CERTIFIED SPECIFICATION) Tj")
-    cs.append("ET")
+    cs.append(text_cmd("F2", 7.5, (0.90, 0.95, 1.0), 36.0, 10.0, "AinZara Aluminum & Glass Processing  -  Tripoli Factory HQ  -  All Technical Rights Reserved."))
+    cs.append(text_cmd("F1", 7.5, (1.0, 1.0, 1.0), 450.0, 10.0, "CERTIFIED SPECIFICATION"))
 
     content_str = "\n".join(cs).encode("latin1")
 
-    # Build PDF Objects
+    # PDF Objects Structure:
+    # 1: Catalog
+    # 2: Pages
+    # 3: Page
+    # 4: Font F1
+    # 5: Font F2
+    # 6: Schematic Image
+    # 7: Header Logo RGB
+    # 8: Header Logo Mask
+    # 9: Watermark RGB
+    # 10: Watermark Mask
+    # 11: Contents Stream
     objects = []
     
     # 1: Catalog
@@ -432,22 +510,57 @@ def generate_pdf(sys_info):
     # 3: Page
     page_dict = (
         b"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] "
-        b"/Resources << /Font << /F1 4 0 R /F2 5 0 R >> /XObject << /Im1 6 0 R >> /ProcSet [/PDF /Text /ImageC] >> "
-        b"/Contents 7 0 R >>"
+        b"/Resources << /Font << /F1 4 0 R /F2 5 0 R >> "
+        b"/XObject << /Im1 6 0 R /LogoHdr 7 0 R /LogoHdrMask 8 0 R /Watermark 9 0 R /WatermarkMask 10 0 R >> "
+        b"/ProcSet [/PDF /Text /ImageC] >> "
+        b"/Contents 11 0 R >>"
     )
     objects.append(page_dict)
     # 4: Font F1 (Helvetica-Bold)
     objects.append(b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>")
     # 5: Font F2 (Helvetica)
     objects.append(b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>")
-    # 6: Image XObject
+    # 6: Schematic JPEG Image
     img_dict = (
         f"<< /Type /XObject /Subtype /Image /Width {img_w} /Height {img_h} "
         f"/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length {len(img_bytes)} >>\nstream\n".encode("latin1")
         + img_bytes + b"\nendstream"
     )
     objects.append(img_dict)
-    # 7: Contents
+
+    # 7: Header Logo RGB
+    hl_dict = (
+        f"<< /Type /XObject /Subtype /Image /Width 120 /Height 120 /ColorSpace /DeviceRGB "
+        f"/BitsPerComponent 8 /Filter /FlateDecode /SMask 8 0 R /Length {len(hdr_rgb_bytes)} >>\nstream\n".encode("latin1")
+        + hdr_rgb_bytes + b"\nendstream"
+    )
+    objects.append(hl_dict)
+
+    # 8: Header Logo Mask (Alpha)
+    hl_mask = (
+        f"<< /Type /XObject /Subtype /Image /Width 120 /Height 120 /ColorSpace /DeviceGray "
+        f"/BitsPerComponent 8 /Filter /FlateDecode /Length {len(hdr_alpha_bytes)} >>\nstream\n".encode("latin1")
+        + hdr_alpha_bytes + b"\nendstream"
+    )
+    objects.append(hl_mask)
+
+    # 9: Watermark RGB
+    wm_dict = (
+        f"<< /Type /XObject /Subtype /Image /Width 500 /Height 500 /ColorSpace /DeviceRGB "
+        f"/BitsPerComponent 8 /Filter /FlateDecode /SMask 10 0 R /Length {len(wm_rgb_bytes)} >>\nstream\n".encode("latin1")
+        + wm_rgb_bytes + b"\nendstream"
+    )
+    objects.append(wm_dict)
+
+    # 10: Watermark Mask (Soft Alpha)
+    wm_mask = (
+        f"<< /Type /XObject /Subtype /Image /Width 500 /Height 500 /ColorSpace /DeviceGray "
+        f"/BitsPerComponent 8 /Filter /FlateDecode /Length {len(wm_alpha_bytes)} >>\nstream\n".encode("latin1")
+        + wm_alpha_bytes + b"\nendstream"
+    )
+    objects.append(wm_mask)
+
+    # 11: Contents Stream
     content_obj = f"<< /Length {len(content_str)} >>\nstream\n".encode("latin1") + content_str + b"\nendstream"
     objects.append(content_obj)
 
@@ -482,7 +595,6 @@ def generate_cad_dxf(sys_info):
     dy = sys_info["dy"]
     t = 2.0  # wall thickness mm
 
-    # Standard DXF ASCII structure
     lines = [
         "0", "SECTION",
         "2", "HEADER",
@@ -588,11 +700,11 @@ def generate_cad_dxf(sys_info):
     print(f"Generated CAD: {dxf_path} & {dwg_path}")
 
 def main():
-    print(f"Generating assets for {len(SYSTEMS)} systems...")
+    print(f"Generating assets for {len(SYSTEMS)} systems with transparent Logo1 watermark...")
     for s in SYSTEMS:
         generate_pdf(s)
         generate_cad_dxf(s)
-    print("All Technical Sheets (PDF) and AutoCAD (DWG/DXF) files successfully created!")
+    print("All Technical Sheets (PDF) and AutoCAD (DWG/DXF) files successfully re-generated!")
 
 if __name__ == "__main__":
     main()

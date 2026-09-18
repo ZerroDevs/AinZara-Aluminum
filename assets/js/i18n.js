@@ -22,6 +22,7 @@
       nav_home: "Home",
       nav_about: "About Us",
       nav_systems: "Architectural Systems",
+      nav_downloads: "Downloads",
       nav_references: "References",
       nav_contact: "Contact",
       btn_rfq: "Quote",
@@ -41,6 +42,79 @@
       master_catalog_title: "Ain Zara Master Architectural Catalog (PDF)",
       master_catalog_badge: "Comprehensive Edition 2026 • 18 Pages",
       master_catalog_desc: "Complete technical dossier featuring all 14 extrusion systems, structural cross-sections, thermal performance data, and IGU glass specifications.",
+
+      // Downloads & BIM/CAD Library
+      dl_hero_tag: "Technical Resource & BIM/CAD Library",
+      dl_hero_title: "Centralized Technical Resource & BIM/CAD Library",
+      dl_hero_desc: "Direct engineering portal for architects, structural facade consultants, and estimators. Download Master & Individual System Catalogs, production 2D CAD cross-sections (DWG/DXF), parametric 3D BIM models (IFC), and official laboratory test certificates.",
+      dl_stat_pdfs: "30+ Technical PDFs",
+      dl_stat_cad: "28 2D CAD Schematics",
+      dl_stat_bim: "28 BIM 3D Objects",
+      dl_stat_certs: "6 Test Certificates",
+
+      // Master Catalogs
+      dl_master_en_title: "Ain Zara Master Architectural Catalog (English)",
+      dl_master_ar_title: "Ain Zara Master Architectural Catalog (Arabic)",
+      dl_master_specs: "18 Pages • Full Matrix • Glass IGU Specs • Vector Schematics",
+      dl_btn_download_en: "Download English Catalog (2.6 MB)",
+      dl_btn_download_ar: "Download Arabic Catalog (3.3 MB)",
+
+      // Filters & Search
+      dl_search_placeholder: "Search by system code, series, or keyword (e.g., SAT 120, BROMO, Thermal)...",
+      dl_filter_all_cats: "All Systems (14 Profiles)",
+      dl_filter_sliding: "Sliding (ARTOS)",
+      dl_filter_doors_windows: "Doors & Windows (HEKLA)",
+      dl_filter_facades: "Curtain Walls (BROMO)",
+      dl_filter_folding: "Folding Doors (NEPAL)",
+      dl_filter_office: "Office Partitions (IDA)",
+      dl_filter_roof: "Skylight & Roof (URAL)",
+      dl_filter_vertical: "Guillotine Vertical (LOGAN)",
+      dl_filter_certificates: "Quality Certificates (6)",
+
+      dl_fmt_label: "File Format:",
+      dl_fmt_all: "All Formats",
+      dl_fmt_pdf: "PDF Sheets",
+      dl_fmt_cad: "2D CAD (DWG / DXF)",
+      dl_fmt_bim: "3D BIM (IFC / Solid DXF)",
+      dl_fmt_cert: "Certificates",
+
+      // System Cards Actions
+      dl_tech_files_title: "Technical Files & Engineering Assets",
+      dl_btn_pdf: "Technical Sheet",
+      dl_btn_dwg: "AutoCAD (DWG)",
+      dl_btn_dxf: "CAD Vector (DXF)",
+      dl_btn_bim: "Revit / ArchiCAD (IFC)",
+      dl_btn_3d_dxf: "3D Solid (DXF)",
+      dl_btn_inspect_3d: "Inspect in 3D",
+      dl_showing_count: "Showing",
+      dl_systems_count: "systems",
+      dl_assets_count: "technical assets",
+      dl_no_results: "No matching architectural systems found. Please adjust your search criteria or clear filters.",
+
+      // Certificates Section
+      dl_cert_sec_tag: "Standards & Compliance",
+      dl_cert_sec_title: "Official Laboratory Test Reports & Quality Standards",
+      dl_cert_sec_desc: "Independent third-party laboratory performance certificates according to European (EN) and International (ISO) directives, verifying air permeability, watertightness, wind resistance, and architectural surface treatments.",
+      dl_btn_download_cert: "Download Certificate (PDF)",
+      dl_cert_air_title: "Air Permeability Classification (Class 4)",
+      dl_cert_air_sub: "EN 1026 / EN 12207 • Zero leakage at 600 Pa test pressure",
+      dl_cert_water_title: "Water Tightness Under Static Pressure (Class 9A / E1200)",
+      dl_cert_water_sub: "EN 1027 / EN 12208 • Multi-tier drainage channels dry up to 1200 Pa",
+      dl_cert_wind_title: "Wind Load Resistance & Deflection (Class C5)",
+      dl_cert_wind_sub: "EN 12211 / EN 12210 • 3000 Pa safety load hurricane resilience",
+      dl_cert_qualicoat_title: "Qualicoat Seaside Architectural Coating License",
+      dl_cert_qualicoat_sub: "ISO 2810 / ISO 2360 • Enhanced etching for Mediterranean coastal marine air",
+      dl_cert_qualanod_title: "Qualanod Architectural Anodizing Quality Label",
+      dl_cert_qualanod_sub: "ISO 7599 / ISO 2143 • Class 20 & Class 25 marine-grade anodic layers",
+      dl_cert_iso_title: "ISO 9001:2015 & ISO 14001:2015 Integrated System",
+      dl_cert_iso_sub: "Full manufacturing traceability, CNC metrology, and closed-loop recycling",
+
+      // Engineering Assistance
+      dl_support_tag: "Direct Factory Engineering Support",
+      dl_support_title: "Require Custom CAD Details or Structural Facade Calculations?",
+      dl_support_desc: "Our technical engineering desk in Tripoli provides project-specific wind load calculations, custom extrusion die integration, U-value thermal analysis, and BIM family tailoring for architectural firms and major contractors.",
+      dl_btn_consult_desk: "Consult Engineering Desk",
+      dl_btn_rfq_custom: "Request Engineering Quote",
 
       // Drawer Specific Keys
       drawer_explore_series: "7 Series • 14 Profiles",
@@ -172,6 +246,7 @@
       nav_home: "الرئيسية",
       nav_about: "من نحن",
       nav_systems: "الأنظمة المعمارية",
+      nav_downloads: "مركز التحميل",
       nav_references: "مشاريعنا",
       nav_contact: "اتصل بنا",
       btn_rfq: "طلب تسعيرة",
@@ -191,6 +266,77 @@
       master_catalog_title: "كتالوج عين زارة المعماري الشامل (PDF)",
       master_catalog_badge: "الإصدار الشامل 2026 • 18 صفحة",
       master_catalog_desc: "ملف تقني شامل يتضمن كافة القطاعات الـ 14، المقاطع الهندسية، بيانات العزل الحراري، ومواصفات الزجاج المزدوج.",
+
+      // Downloads & BIM/CAD Library
+      dl_hero_tag: "مركز الموارد الهندسية ونماذج BIM",
+      dl_hero_title: "مكتبة الموارد الفنية والمخططات الهندسية (BIM & CAD)",
+      dl_hero_desc: "بوابة هندسية مركزية مخصصة للمهندسين المعماريين، استشاريي الواجهات، ومكاتب حساب الكميات. تتيح تنزيل الكتالوج الشامل والكتالوجات الفردية، ومخططات الأوتوكاد التنفيذية (DWG/DXF)، ونماذج نمذجة معلومات البناء ثلاثية الأبعاد (IFC)، وشهادات الاختبارات المعملية المعتمدة.",
+      dl_stat_pdfs: "+30 ملف PDF فني",
+      dl_stat_cad: "28 مخطط أوتوكاد 2D",
+      dl_stat_bim: "28 نموذج BIM ثلاثي الأبعاد",
+      dl_stat_certs: "6 شهادات جودة معتمدة",
+
+      // Master Catalogs
+      dl_master_en_title: "كتالوج عين زارة المعماري الشامل (النسخة الإنجليزية)",
+      dl_master_ar_title: "كتالوج عين زارة المعماري الشامل (النسخة العربية)",
+      dl_master_specs: "18 صفحة • مصفوفة الأنظمة الكاملة • مواصفات الزجاج • مخططات فيكتور",
+      dl_btn_download_en: "تحميل النسخة الإنجليزية (2.6 ميجابايت)",
+      dl_btn_download_ar: "تحميل النسخة العربية (3.3 ميجابايت)",
+
+      // Filters & Search
+      dl_search_placeholder: "ابحث برمز النظام، السلسلة أو الكلمات المفتاحية (مثل: SAT 120، BROMO، عازل)...",
+      dl_filter_all_cats: "كافة الأنظمة (14 قطاعاً)",
+      dl_filter_sliding: "أنظمة السحب (ARTOS)",
+      dl_filter_doors_windows: "الأبواب والنوافذ (HEKLA)",
+      dl_filter_facades: "الواجهات الزجاجية (BROMO)",
+      dl_filter_folding: "الأبواب القابلة للطي (NEPAL)",
+      dl_filter_office: "القواطع المكتبية (IDA)",
+      dl_filter_roof: "الأسقف والقباب (URAL)",
+      dl_filter_vertical: "السحب الرأسي (LOGAN)",
+      dl_filter_certificates: "شهادات الجودة (6)",
+
+      dl_fmt_all: "كافة الصيغ",
+      dl_fmt_pdf: "كتالوجات PDF",
+      dl_fmt_cad: "مخططات CAD (DWG / DXF)",
+      dl_fmt_bim: "نماذج BIM (IFC / مجسم 3D)",
+      dl_fmt_cert: "شهادات الاختبار",
+
+      // System Cards Actions
+      dl_btn_pdf: "الكتالوج الفني",
+      dl_btn_dwg: "أوتوكاد (DWG)",
+      dl_btn_dxf: "مخطط تفصيلي (DXF)",
+      dl_btn_bim: "نموذج ريفيت (IFC)",
+      dl_btn_3d_dxf: "مجسم 3D صلب (DXF)",
+      dl_btn_inspect_3d: "فحص تفاعلي 3D",
+      dl_showing_count: "عرض",
+      dl_systems_count: "أنظمة",
+      dl_assets_count: "ملفاً هندسياً",
+      dl_no_results: "لم يتم العثور على أنظمة مطابقة لخيارات البحث أو التصنيف. يرجى تعديل البحث.",
+
+      // Certificates Section
+      dl_cert_sec_tag: "المعايير والاعتمادات القياسية",
+      dl_cert_sec_title: "تقارير الاختبارات المعملية وشهادات الجودة الرسمية",
+      dl_cert_sec_desc: "شهادات اختبار معملية معتمدة من جهات أوروبية ودولية مستقلة تؤكد مقاومة نفاذية الهواء، إحكام منع تسرب المياه، مقاومة ضغط الرياح، وجودة الطلاء والأكسدة المعمارية.",
+      dl_btn_download_cert: "تحميل الشهادة الرسمية (PDF)",
+      dl_cert_air_title: "شهادة نفاذية الهواء (الفئة 4)",
+      dl_cert_air_sub: "EN 1026 / EN 12207 • منع تام للتسرب تحت ضغط اختبار 600 باسكال",
+      dl_cert_water_title: "شهادة مقاومة نفاذ الماء تحت الضغط (الفئة 9A / E1200)",
+      dl_cert_water_sub: "EN 1027 / EN 12208 • تصريف متطور ومحكم لمنع تسرب المياه حتى 1200 باسكال",
+      dl_cert_wind_title: "شهادة مقاومة أحمال الرياح والتشوه (الفئة C5)",
+      dl_cert_wind_sub: "EN 12211 / EN 12210 • مقاومة أحمال أعاصير فائقة بضغط أمان 3000 باسكال",
+      dl_cert_qualicoat_title: "رخصة كواليكوت سي سايد لطلاء الألمنيوم",
+      dl_cert_qualicoat_sub: "ISO 2810 / ISO 2360 • معالجة سطحية مضاعفة لمقاومة ملوحة ورطوبة السواحل",
+      dl_cert_qualanod_title: "شهادة كوالانود للجودة المعمارية للأكسدة (الأنودة)",
+      dl_cert_qualanod_sub: "ISO 7599 / ISO 2143 • طبقات أكسدة بحرية فائقة الصلابة (فئة 20 و 25)",
+      dl_cert_iso_title: "شهادة أنظمة الإدارة المتكاملة (ISO 9001 و ISO 14001)",
+      dl_cert_iso_sub: "تتبع كامل لمصادر السبائك، دقة تصنيع رقمية، وتدوير مغلق للألمنيوم",
+
+      // Engineering Assistance
+      dl_support_tag: "الدعم الهندسي المباشر للمصنع",
+      dl_support_title: "هل تحتاج إلى تفاصيل CAD خاصة أو حسابات إنشائية للواجهات؟",
+      dl_support_desc: "يقدم المكتب الهندسي في طرابلس دراسات إنشائية مخصصة لحسابات ضغط الرياح، ومحاكاة العزل الحراري، وتصميم قوالب سحب الألمنيوم الخاصة، وتخصيص عائلات BIM للمكاتب الاستشارية والمقاولين.",
+      dl_btn_consult_desk: "تواصل مع المكتب الهندسي",
+      dl_btn_rfq_custom: "طلب تسعير هندسي",
 
       // Drawer Specific Keys
       drawer_explore_series: "7 سلاسل • 14 قطاعاً",

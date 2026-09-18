@@ -156,6 +156,7 @@
 
     if (currentPath.includes('about.html')) page = 'about';
     else if (currentPath.includes('products.html') || currentPath.includes('category.html')) page = 'products';
+    else if (currentPath.includes('downloads.html')) page = 'downloads';
     else if (currentPath.includes('references.html')) page = 'references';
     else if (currentPath.includes('contact.html')) page = 'contact';
 

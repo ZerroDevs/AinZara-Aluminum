@@ -203,3 +203,25 @@
   margin-left: 0.25rem;
   margin-right: 0;
 }
+
+/* Downloads & BIM/CAD Library RTL */
+[dir="rtl"] .dl-series-tag,
+[dir="rtl"] .dl-system-code,
+[dir="rtl"] .cert-standard-code,
+[dir="rtl"] .dl-btn-meta {
+  direction: ltr;
+  display: inline-block;
+}
+
+[dir="rtl"] .dl-card-downloads {
+  text-align: right;
+}
+
+[dir="rtl"] .dl-arrow {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .dl-file-btn:hover .dl-arrow {
+  transform: scaleX(-1) translateY(2px);
+}
+

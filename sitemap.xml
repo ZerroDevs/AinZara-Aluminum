@@ -19,6 +19,15 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/downloads.html</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ainzara.ly/downloads.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ainzara.ly/downloads.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ainzara.ly/downloads.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/about.html</loc>
     <xhtml:link rel="alternate" hreflang="ar" href="https://ainzara.ly/about.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ainzara.ly/about.html"/>

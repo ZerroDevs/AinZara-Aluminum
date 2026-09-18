@@ -26,9 +26,9 @@
         </div>
       </div>
       <div class="topbar-actions">
-        <button type="button" class="lang-btn" id="lang-toggle-btn" aria-label="Toggle Language">
+        <button type="button" class="lang-btn lang-toggle-btn" aria-label="Toggle Language">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          <span id="lang-label">العربية</span>
+          <span class="lang-label">العربية</span>
         </button>
       </div>
     </div>
@@ -64,9 +64,12 @@
         <a href="contact.html" class="nav-link" data-nav="contact" data-i18n="nav_contact">Contact</a>
       </nav>
       <div class="header-actions">
-        <button type="button" class="btn-rfq" onclick="window.AinZaraApp && window.AinZaraApp.openRfqModal ? window.AinZaraApp.openRfqModal() : document.getElementById('rfq-modal').classList.add('active')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          <span data-i18n="btn_rfq">Request a Quote</span>
+        <button type="button" class="mobile-lang-btn lang-toggle-btn" aria-label="Toggle Language">
+          <span class="lang-short-label">العربية</span>
+        </button>
+        <button type="button" class="btn-rfq" data-action="open-rfq" aria-label="Request a Quote">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span data-i18n="btn_rfq">Quote</span>
         </button>
         <button type="button" class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Open Navigation Menu">
           <span class="menu-toggle-bar"></span><span class="menu-toggle-bar"></span><span class="menu-toggle-bar"></span>
@@ -79,19 +82,24 @@
 <aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
   <div class="drawer-header">
     <div class="drawer-title" data-i18n="mobile_nav_title">Navigation Menu</div>
-    <button type="button" class="drawer-close-btn" id="drawer-close-btn" aria-label="Close Menu">&times;</button>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <button type="button" class="lang-btn lang-toggle-btn" aria-label="Toggle Language" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+        <span class="drawer-lang-label">العربية</span>
+      </button>
+      <button type="button" class="drawer-close-btn" id="drawer-close-btn" aria-label="Close Menu">&times;</button>
+    </div>
   </div>
   <div class="drawer-body">
     <div class="drawer-nav-list">
       <div class="drawer-nav-item"><a href="index.html" class="drawer-nav-link" data-nav="home" data-i18n="nav_home">Home</a></div>
       <div class="drawer-nav-item"><a href="about.html" class="drawer-nav-link" data-nav="about" data-i18n="nav_about">About Us</a></div>
       <div class="drawer-nav-item">
-        <button type="button" class="drawer-accordion-btn" id="drawer-systems-btn" aria-expanded="false">
+        <button type="button" class="drawer-accordion-btn" id="drawer-systems-btn" aria-expanded="false" onclick="window.AinZaraNav && window.AinZaraNav.toggleAccordion ? window.AinZaraNav.toggleAccordion(this) : null">
           <span data-i18n="nav_systems">Architectural Systems</span>
-          <svg class="drawer-accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <svg class="drawer-accordion-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
         <div class="drawer-accordion-content" id="drawer-systems-content">
-          <a href="products.html" class="drawer-sublink"><span data-i18n="cat_all">All Systems Matrix</span></a>
+          <a href="products.html" class="drawer-sublink"><span data-i18n="cat_all" style="font-weight: 700; color: var(--color-primary);">All Systems Matrix</span></a>
           <a href="category.html?cat=sliding" class="drawer-sublink"><span data-i18n="cat_sliding">Sliding Systems</span><span class="dropdown-item-code">ARTOS</span></a>
           <a href="category.html?cat=door-window" class="drawer-sublink"><span data-i18n="cat_door_window">Door & Window</span><span class="dropdown-item-code">HEKLA</span></a>
           <a href="category.html?cat=facade" class="drawer-sublink"><span data-i18n="cat_facade">Curtain Wall Facade</span><span class="dropdown-item-code">BROMO</span></a>
@@ -140,7 +148,7 @@
         <span class="drawer-phone-number">+218 91 680 8225</span>
         <div class="drawer-phone-actions">
           <a href="tel:0916808225" class="icon-link" aria-label="Call +218 91 680 8225"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
-          <a href="https://wa.me/218916808225" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" aria-label="WhatsApp +218 91 680 8225"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+          <a href="https://wa.me/218916808225" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" aria-label="WhatsApp +218 91 680 8225"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
         </div>
       </div>
     </div>
@@ -157,11 +165,9 @@
       const html = await response.text();
       placeholder.innerHTML = html;
     } catch (err) {
-      // Fallback for file:// or offline mode
       placeholder.innerHTML = HEADER_TEMPLATE;
     }
 
-    // Dispatch event so navigation and i18n can initialize
     document.dispatchEvent(new CustomEvent('headerLoaded'));
   }
 

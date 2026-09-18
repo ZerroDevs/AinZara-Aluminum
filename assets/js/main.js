@@ -412,6 +412,16 @@
       });
     }
 
+    // Global delegation for any RFQ open buttons (including dynamic header buttons)
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn-rfq, [data-action="open-rfq"]');
+      if (btn) {
+        e.preventDefault();
+        const sysId = btn.getAttribute('data-system');
+        openRfqModal(sysId || null);
+      }
+    });
+
     if (form) {
       form.addEventListener('submit', (e) => {
         e.preventDefault();

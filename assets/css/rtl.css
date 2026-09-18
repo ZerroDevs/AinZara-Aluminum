@@ -115,3 +115,14 @@
   direction: ltr;
   display: inline-block;
 }
+
+/* 404 Page RTL */
+[dir="rtl"] .error-code-badge {
+  border-left: none;
+  border-right: 3px solid var(--color-secondary);
+}
+
+[dir="rtl"] .error-quick-matrix {
+  text-align: right;
+}
+

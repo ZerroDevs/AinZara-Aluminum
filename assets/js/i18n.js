@@ -1,7 +1,7 @@
 /**
  * AinZara-Aluminum Internationalization (i18n) Engine
  * Supported Languages: English ('en' - LTR), Arabic ('ar' - RTL)
- * Manages dir attribute, rtl.css stylesheet link, and comprehensive client translation
+ * Handles direction, stylesheet toggling, multi-button delegation, and complete translations
  */
 
 (function () {
@@ -17,26 +17,27 @@
       brand_tagline: "Glass Processing & Aluminum Manufacturing",
       header_location: "Ain Zara, Industrial District, Tripoli, Libya",
       lang_label: "العربية",
+      lang_short: "AR",
       
       nav_home: "Home",
       nav_about: "About Us",
       nav_systems: "Architectural Systems",
       nav_references: "References",
       nav_contact: "Contact",
-      btn_rfq: "Request a Quote",
+      btn_rfq: "Quote",
       mobile_nav_title: "Navigation Menu",
       quick_contact: "Direct Inquiries",
-      call_only: "Voice Only",
+      call_only: "Voice",
 
       // Categories
       cat_all: "All Systems Matrix",
       cat_sliding: "Sliding Systems",
-      cat_door_window: "Door & Window Systems",
+      cat_door_window: "Door & Window",
       cat_facade: "Curtain Wall & Facades",
-      cat_folding: "Folding Door Systems",
+      cat_folding: "Folding Doors",
       cat_office: "Office Partitions",
-      cat_roof: "Skylight & Roof Systems",
-      cat_vertical: "Vertical Guillotine Systems",
+      cat_roof: "Skylight & Roof",
+      cat_vertical: "Vertical Guillotine",
 
       // Hero
       hero_sub_1: "High-Precision Architectural Aluminum & Glass",
@@ -93,13 +94,21 @@
       rfq_field_glass: "Glass Processing Specification",
       rfq_field_notes: "Project Scope, Dimensions & Schedule",
       rfq_submit: "Submit RFQ Request",
-      rfq_success: "Thank you! Your technical RFQ has been logged. Our engineering team in Tripoli will review your specifications."
+      rfq_success: "Thank you! Your technical RFQ has been logged. Our engineering team in Tripoli will review your specifications.",
+
+      // 404 Page
+      page_404_tag: "Error 404",
+      page_404_heading: "Architectural Profile Specification Not Found",
+      page_404_desc: "The requested architectural series or technical catalog page could not be located. It may have been reclassified or moved.",
+      btn_back_home: "Return to Homepage",
+      btn_view_catalog: "Explore Systems Matrix"
     },
     ar: {
       brand_name: "عين زارة",
       brand_tagline: "لمعالجة الزجاج وتصنيع الألمنيوم",
       header_location: "عين زارة، المنطقة الصناعية، طرابلس، ليبيا",
       lang_label: "English",
+      lang_short: "EN",
       
       nav_home: "الرئيسية",
       nav_about: "من نحن",
@@ -114,12 +123,12 @@
       // Categories
       cat_all: "مصفوفة الأنظمة الكاملة",
       cat_sliding: "أنظمة السحب والجر",
-      cat_door_window: "أنظمة الأبواب والنوافذ",
-      cat_facade: "أنظمة الواجهات الزجاجية",
-      cat_folding: "أنظمة الأبواب القابلة للطي",
-      cat_office: "القواطع الإدارية والمكتبية",
-      cat_roof: "أنظمة الأسقف والقباب الزجاجية",
-      cat_vertical: "أنظمة السحب الرأسي (الجلوتين)",
+      cat_door_window: "الأبواب والنوافذ",
+      cat_facade: "الواجهات الزجاجية",
+      cat_folding: "الأبواب القابلة للطي",
+      cat_office: "القواطع المكتبية",
+      cat_roof: "الأسقف والقباب",
+      cat_vertical: "السحب الرأسي (الجلوتين)",
 
       // Hero
       hero_sub_1: "دقة هندسية عالية في صناعة الألمنيوم والزجاج المعماري",
@@ -162,7 +171,7 @@
       // Footer
       footer_about: "شركة عين زارة صرح صناعي رائد في طرابلس، ليبيا، متخصصة في الأنظمة المعمارية للألمنيوم، والواجهات الزجاجية، والأبواب والنوافذ المعزولة حرارياً، ومعالجة الزجاج العازل والمقسى.",
       footer_nav_title: "الشركة",
-      footer_systems_title: "الأنظمة",
+      footer_systems_title: "الأنظمة المعمارية",
       footer_contact_title: "الاتصال المباشر",
       copyright_rights: "جميع الحقوق محفوظة. تصنيع الألمنيوم ومعالجة الزجاج المعماري.",
       location_tripoli: "طرابلس، ليبيا",
@@ -176,7 +185,14 @@
       rfq_field_glass: "مواصفات الزجاج المطلوبة",
       rfq_field_notes: "تفاصيل المشروع، الأبعاد والمخططات",
       rfq_submit: "إرسال طلب التسعيرة",
-      rfq_success: "شكراً لتواصلكم! تم استلام طلب التسعيرة وسيقوم الفريق الهندسي في طرابلس بدراسة المواصفات والتواصل معكم."
+      rfq_success: "شكراً لتواصلكم! تم استلام طلب التسعيرة وسيقوم الفريق الهندسي في طرابلس بدراسة المواصفات والتواصل معكم.",
+
+      // 404 Page
+      page_404_tag: "خطأ 404",
+      page_404_heading: "مواصفات النظام المعماري غير متوفرة",
+      page_404_desc: "الصفحة أو مواصفات النظام المعماري المطلوبة غير موجودة أو تم نقلها.",
+      btn_back_home: "العودة إلى الصفحة الرئيسية",
+      btn_view_catalog: "تصفح مصفوفة الأنظمة"
     }
   };
 
@@ -206,11 +222,13 @@
       }
     }
 
-    // Update Language Toggle Button Label
-    const labelElem = document.getElementById('lang-label');
-    if (labelElem) {
-      labelElem.textContent = TRANSLATIONS[lang].lang_label;
-    }
+    // Update Language Toggle Button Labels everywhere
+    document.querySelectorAll('.lang-label, .drawer-lang-label').forEach(el => {
+      el.textContent = TRANSLATIONS[lang].lang_label;
+    });
+    document.querySelectorAll('.lang-short-label').forEach(el => {
+      el.textContent = TRANSLATIONS[lang].lang_short;
+    });
 
     // Translate all elements with data-i18n
     const elements = document.querySelectorAll('[data-i18n]');
@@ -238,23 +256,22 @@
     applyLanguage(nextLang);
   }
 
-  function bindToggleEvents() {
-    const btn = document.getElementById('lang-toggle-btn');
+  // Global event delegation for language buttons (works across desktop, mobile bar, and drawer)
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.lang-toggle-btn, #lang-toggle-btn');
     if (btn) {
-      btn.removeEventListener('click', toggleLanguage);
-      btn.addEventListener('click', toggleLanguage);
+      e.preventDefault();
+      toggleLanguage();
     }
-  }
+  });
 
-  // Bind on DOM ready and whenever header is loaded dynamically
+  // Re-apply on DOM ready and dynamic components
   document.addEventListener('DOMContentLoaded', () => {
     applyLanguage(currentLang);
-    bindToggleEvents();
   });
 
   document.addEventListener('headerLoaded', () => {
     applyLanguage(currentLang);
-    bindToggleEvents();
   });
 
   document.addEventListener('footerLoaded', () => {

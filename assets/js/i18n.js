@@ -103,7 +103,28 @@
       tab_3d_model: "3D Interactive Model",
       tab_2d_schematic: "2D CAD Schematic",
       modal_3d_title: "3D CAD Model Inspection",
-      note_3d_disclaimer: "Interactive 3D representation • For exact manufacturing specifications refer to official 2D CAD schematic",
+      badge_disclaimer_notice: "IMPORTANT NOTE",
+      note_3d_disclaimer: "Interactive 3D representation • This is for demonstration purposes only and may not accurately reflect physical reality • For exact manufacturing specifications refer to official 2D CAD schematic",
+      btn_operate: "Operate",
+      btn_operate_open: "Open Sash",
+      btn_operate_close: "Close Sash",
+      btn_operate_tilt: "Tilt & Turn",
+      btn_operate_fold: "Accordion Fold",
+      btn_operate_motor: "Motor Drive",
+      btn_finishes: "Finishes",
+      btn_section_cut: "Section Cut",
+      btn_measure: "Measure",
+      btn_snapshot: "Snapshot",
+      finish_ral_7016: "RAL 7016 Anthracite",
+      finish_ral_9005: "RAL 9005 Jet Black",
+      finish_ral_9016: "RAL 9016 Traffic White",
+      finish_ral_8014: "RAL 8014 Sepia Brown",
+      finish_qualanod_silver: "Qualanod Satin Silver",
+      finish_qualanod_champagne: "Qualanod Champagne Bronze",
+      finish_qualanod_titanium: "Qualanod Titanium Charcoal",
+      caliper_hint: "Click two points on the 3D model to measure distance",
+      caliper_clear: "Clear",
+      caliper_result: "Measured Distance",
 
       // Glass Capabilities
       glass_title: "Automated Glass Processing Plant",
@@ -232,7 +253,28 @@
       tab_3d_model: "نموذج ثلاثي الأبعاد 3D",
       tab_2d_schematic: "المخطط الهندسي 2D",
       modal_3d_title: "فحص النموذج ثلاثي الأبعاد CAD",
-      note_3d_disclaimer: "نموذج ثلاثي أبعاد توضيحي للتصور المعماري • تعتمد القياسات التنفيذية الدقيقة على المخطط الهندسي 2D",
+      badge_disclaimer_notice: "تنبيه هام",
+      note_3d_disclaimer: "نموذج ثلاثي أبعاد تفاعلي • هذا لا يطابق الواقع بشكل صحيح وهذا فقط للتوضيح والتصور • تعتمد القياسات والمواصفات التنفيذية الدقيقة على المخطط الهندسي 2D الرسمي",
+      btn_operate: "تشغيل وحركة",
+      btn_operate_open: "فتح الدلفة",
+      btn_operate_close: "إغلاق الدلفة",
+      btn_operate_tilt: "قلاب ومفصلي",
+      btn_operate_fold: "طي بانورامي",
+      btn_operate_motor: "تشغيل المحرك",
+      btn_finishes: "ألوان وتشطيبات",
+      btn_section_cut: "مقطع هندسي",
+      btn_measure: "أداة القياس",
+      btn_snapshot: "التقاط صورة",
+      finish_ral_7016: "رمادي أنثراسيت (RAL 7016)",
+      finish_ral_9005: "أسود حالك مطفي (RAL 9005)",
+      finish_ral_9016: "أبيض ناصع (RAL 9016)",
+      finish_ral_8014: "بني داكن سيبيا (RAL 8014)",
+      finish_qualanod_silver: "أنودة فضية ساتان (Qualanod)",
+      finish_qualanod_champagne: "أنودة شامبانيا برونز (Qualanod)",
+      finish_qualanod_titanium: "أنودة تيتانيوم فحمي (Qualanod)",
+      caliper_hint: "انقر على نقطتين على المجسم 3D لحساب المسافة بدقة",
+      caliper_clear: "مسح",
+      caliper_result: "المسافة المقاسة",
 
       // Glass Capabilities
       glass_title: "مصنع معالجة وتطوير الزجاج الآلي",
@@ -306,23 +348,8 @@
       el.textContent = TRANSLATIONS[lang].lang_short;
     });
 
-    // Translate all elements with data-i18n
-    const elements = document.querySelectorAll('[data-i18n]');
-    elements.forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
-        el.textContent = TRANSLATIONS[lang][key];
-      }
-    });
-
-    // Translate placeholders
-    const placeholderElems = document.querySelectorAll('[data-i18n-placeholder]');
-    placeholderElems.forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
-        el.setAttribute('placeholder', TRANSLATIONS[lang][key]);
-      }
-    });
+    // Translate elements with data-i18n
+    updateDOM(document);
 
     // Update Master Catalog and Technical Sheet PDF download links according to active language
     const masterLinks = document.querySelectorAll('a[href*="AinZara-Master-Architectural-Catalog"]');
@@ -381,11 +408,31 @@
     applyLanguage(currentLang);
   });
 
+  function updateDOM(root = document) {
+    const lang = currentLang;
+    const elements = root.querySelectorAll('[data-i18n]');
+    elements.forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+        el.textContent = TRANSLATIONS[lang][key];
+      }
+    });
+
+    const placeholderElems = root.querySelectorAll('[data-i18n-placeholder]');
+    placeholderElems.forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+        el.setAttribute('placeholder', TRANSLATIONS[lang][key]);
+      }
+    });
+  }
+
   // Expose API
   window.AinZaraI18n = {
     getLang: () => currentLang,
     setLang: applyLanguage,
     toggle: toggleLanguage,
+    updateDOM: updateDOM,
     t: (key) => (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || key
   };
 })();

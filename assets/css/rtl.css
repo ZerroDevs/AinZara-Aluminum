@@ -162,7 +162,28 @@
   margin-right: auto;
 }
 
+[dir="rtl"] .viewer-3d-popover {
+  left: auto;
+  right: 12px;
+}
+
+[dir="rtl"] .finish-swatch-item {
+  text-align: right;
+}
+
 [dir="rtl"] .modal-3d-specs {
+  text-align: right;
+}
+
+[dir="rtl"] .modal-3d-disclaimer {
+  border-left: 1.5px solid #F59E0B;
+  border-right: 5px solid #D97706;
+  text-align: right;
+}
+
+[dir="rtl"] .viewer-3d-disclaimer {
+  border-left: 1.5px solid #F59E0B;
+  border-right: 4px solid #F59E0B;
   text-align: right;
 }
 

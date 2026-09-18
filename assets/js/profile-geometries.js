@@ -14,23 +14,35 @@
 (function () {
   'use strict';
 
+  // Architectural Finishes Registry
+  const FINISHES = {
+    'ral-7016': { id: 'ral-7016', nameEn: 'RAL 7016 Anthracite Grey', nameAr: 'رمادي أنثراسيت (RAL 7016)', hex: 0x333940, css: '#333940', metalness: 0.72, roughness: 0.40 },
+    'ral-9005': { id: 'ral-9005', nameEn: 'RAL 9005 Jet Black Matte', nameAr: 'أسود حالك مطفي (RAL 9005)', hex: 0x181A1D, css: '#181A1D', metalness: 0.65, roughness: 0.58 },
+    'ral-9016': { id: 'ral-9016', nameEn: 'RAL 9016 Traffic White', nameAr: 'أبيض ناصع (RAL 9016)', hex: 0xE8ECF0, css: '#F3F4F6', metalness: 0.50, roughness: 0.32 },
+    'ral-8014': { id: 'ral-8014', nameEn: 'RAL 8014 Sepia Brown', nameAr: 'بني داكن سيبيا (RAL 8014)', hex: 0x3E2D23, css: '#3E2D23', metalness: 0.68, roughness: 0.42 },
+    'qualanod-silver': { id: 'qualanod-silver', nameEn: 'Qualanod Satin Silver (E6)', nameAr: 'أنودة فضية ساتان (Qualanod)', hex: 0xB8C2CC, css: '#B8C2CC', metalness: 0.90, roughness: 0.25 },
+    'qualanod-champagne': { id: 'qualanod-champagne', nameEn: 'Qualanod Champagne Bronze', nameAr: 'أنودة شامبانيا برونز (Qualanod)', hex: 0x96826E, css: '#96826E', metalness: 0.86, roughness: 0.28 },
+    'qualanod-titanium': { id: 'qualanod-titanium', nameEn: 'Qualanod Titanium Charcoal', nameAr: 'أنودة تيتانيوم فحمي (Qualanod)', hex: 0x484B52, css: '#484B52', metalness: 0.88, roughness: 0.30 }
+  };
+
   // Shared PBR Architectural Materials
-  function createMaterials() {
+  function createMaterials(finishId) {
+    const f = FINISHES[finishId] || FINISHES['ral-7016'];
     return {
       alumDark: new THREE.MeshStandardMaterial({
-        color: 0x333940, // Anthracite Dark Grey Powder Coat
-        metalness: 0.75,
-        roughness: 0.38
+        color: f.hex,
+        metalness: f.metalness,
+        roughness: f.roughness
       }),
       alumSilver: new THREE.MeshStandardMaterial({
-        color: 0xC4CBD4, // Satin Silver / Anodized Aluminum
-        metalness: 0.65,
-        roughness: 0.35
+        color: finishId && finishId.startsWith('qualanod') ? f.hex : 0xC4CBD4,
+        metalness: 0.85,
+        roughness: 0.30
       }),
       alumCap: new THREE.MeshStandardMaterial({
-        color: 0x505A66, // Mid-tone Architectural Cap
-        metalness: 0.70,
-        roughness: 0.40
+        color: f.hex,
+        metalness: f.metalness,
+        roughness: f.roughness
       }),
       polyamide: new THREE.MeshStandardMaterial({
         color: 0x181C22, // Dark Charcoal PA66 Thermal Break
@@ -74,13 +86,15 @@
     };
   }
 
-  // Helper: register part with restPosition and explodeOffset
-  function addPart(group, mesh, explodeOffset) {
+  // Helper: register part with restPosition, restRotation, explodeOffset, and optional kinematic
+  function addPart(group, mesh, explodeOffset, kinematic) {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     mesh.userData = {
       restPosition: mesh.position.clone(),
-      explodeOffset: explodeOffset || new THREE.Vector3(0, 0, 0)
+      restRotation: mesh.rotation.clone(),
+      explodeOffset: explodeOffset || new THREE.Vector3(0, 0, 0),
+      kinematic: kinematic || null
     };
     group.add(mesh);
     return mesh;
@@ -162,36 +176,39 @@
     addPart(group, jambInner, new THREE.Vector3(-1.5, 0, -1.5));
 
     // Operable Casement Sash (L-shape corner mitered at 45°)
+    const casementKin = { type: 'casement', pivot: new THREE.Vector3(-4.5, 0, 0.5), axis: new THREE.Vector3(0, 1, 0), maxAngle: -Math.PI / 2.2 };
+
     const sashBottom = createHollowBox(11, 2.8, 5.2, 0.35, m.alumDark);
     sashBottom.position.set(2.5, -1.0, 0.5);
-    addPart(group, sashBottom, new THREE.Vector3(0, 2.5, 3.5));
+    addPart(group, sashBottom, new THREE.Vector3(0, 2.5, 3.5), casementKin);
 
     const sashVertical = createHollowBox(2.8, 10, 5.2, 0.35, m.alumDark);
     sashVertical.position.set(-2.0, 2.8, 0.5);
-    addPart(group, sashVertical, new THREE.Vector3(-2.5, 2.5, 3.5));
+    addPart(group, sashVertical, new THREE.Vector3(-2.5, 2.5, 3.5), casementKin);
 
     // Glazing Bead & Gasket
     const bead = new THREE.Mesh(new THREE.BoxGeometry(9.5, 0.5, 0.8), m.alumCap);
     bead.position.set(3.2, 0.5, -1.2);
-    addPart(group, bead, new THREE.Vector3(0, 3.0, 4.0));
+    addPart(group, bead, new THREE.Vector3(0, 3.0, 4.0), casementKin);
 
     // Double Glazed Unit (IGU)
     const glassPane1 = new THREE.Mesh(new THREE.BoxGeometry(9.0, 9.0, 0.3), m.glass);
     glassPane1.position.set(3.5, 4.2, 0.1);
-    addPart(group, glassPane1, new THREE.Vector3(0, 5.0, 4.0));
+    addPart(group, glassPane1, new THREE.Vector3(0, 5.0, 4.0), casementKin);
 
     const glassPane2 = new THREE.Mesh(new THREE.BoxGeometry(9.0, 9.0, 0.3), m.glass);
     glassPane2.position.set(3.5, 4.2, 1.1);
-    addPart(group, glassPane2, new THREE.Vector3(0, 5.0, 5.0));
+    addPart(group, glassPane2, new THREE.Vector3(0, 5.0, 5.0), casementKin);
 
     const spacer = new THREE.Mesh(new THREE.BoxGeometry(9.0, 0.4, 0.7), m.polyamide);
     spacer.position.set(3.5, 0.8, 0.6);
-    addPart(group, spacer, new THREE.Vector3(0, 4.5, 4.5));
+    addPart(group, spacer, new THREE.Vector3(0, 4.5, 4.5), casementKin);
 
     group.position.set(0, -1.5, 0);
 
     return {
       group,
+      operable: { type: 'casement', labelEn: 'Tilt & Turn', labelAr: 'قلاب ومفصلي' },
       hotspots: {
         frameDepth: { pos: new THREE.Vector3(1, -3.5, 3.5), labelEn: 'Frame Depth: 63 mm', labelAr: 'عمق الإطار: 63 ملم' },
         thermalBreak: { pos: new THREE.Vector3(1, -3.5, 0), labelEn: '24 mm Polyamide PA66 Break', labelAr: 'عازل حراري بولي أميد 24 ملم' },
@@ -222,9 +239,11 @@
     addPart(group, frameJamb, new THREE.Vector3(-1.5, 0, 0));
 
     // Casement Sash with forward Water Drip Deflector Lip
+    const wa55Kin = { type: 'casement', pivot: new THREE.Vector3(-4.2, 0, 0.5), axis: new THREE.Vector3(0, 1, 0), maxAngle: -Math.PI / 2.2 };
+
     const sashBottom = createHollowBox(10.5, 2.6, 5.0, 0.35, m.alumDark);
     sashBottom.position.set(2.2, -0.8, 0.5);
-    addPart(group, sashBottom, new THREE.Vector3(0, 2.5, 3.5));
+    addPart(group, sashBottom, new THREE.Vector3(0, 2.5, 3.5), wa55Kin);
 
     // Water Drip Lip (Angled forward nose on sash)
     const dripGeo = new THREE.BufferGeometry();
@@ -236,25 +255,26 @@
     dripGeo.computeVertexNormals();
     const dripMesh = new THREE.Mesh(dripGeo, m.alumDark);
     dripMesh.position.set(2.2, 0, 0);
-    addPart(group, dripMesh, new THREE.Vector3(0, 2.5, 3.5));
+    addPart(group, dripMesh, new THREE.Vector3(0, 2.5, 3.5), wa55Kin);
 
     const sashJamb = createHollowBox(2.6, 10, 5.0, 0.35, m.alumDark);
     sashJamb.position.set(-1.8, 3.0, 0.5);
-    addPart(group, sashJamb, new THREE.Vector3(-2.0, 2.5, 3.5));
+    addPart(group, sashJamb, new THREE.Vector3(-2.0, 2.5, 3.5), wa55Kin);
 
     // Double Glazing (IGU)
     const glassPane1 = new THREE.Mesh(new THREE.BoxGeometry(8.5, 8.5, 0.3), m.glass);
     glassPane1.position.set(3.2, 4.5, 0.0);
-    addPart(group, glassPane1, new THREE.Vector3(0, 5.0, 3.5));
+    addPart(group, glassPane1, new THREE.Vector3(0, 5.0, 3.5), wa55Kin);
 
     const glassPane2 = new THREE.Mesh(new THREE.BoxGeometry(8.5, 8.5, 0.3), m.glass);
     glassPane2.position.set(3.2, 4.5, 0.9);
-    addPart(group, glassPane2, new THREE.Vector3(0, 5.0, 4.5));
+    addPart(group, glassPane2, new THREE.Vector3(0, 5.0, 4.5), wa55Kin);
 
     group.position.set(0, -1.5, 0);
 
     return {
       group,
+      operable: { type: 'casement', labelEn: 'Open Sash', labelAr: 'فتح الدلفة' },
       hotspots: {
         frameDepth: { pos: new THREE.Vector3(1, -3.2, 3.0), labelEn: 'Frame Depth: 55 mm', labelAr: 'عمق الحلق: 55 ملم' },
         dripLip: { pos: new THREE.Vector3(2.2, -1.2, 4.2), labelEn: 'Integrated Water Drip Lip', labelAr: 'أنف تصريف ومصد مياه مدمج' },
@@ -285,23 +305,26 @@
     addPart(group, frameJamb, new THREE.Vector3(-1.5, 0, 0));
 
     // Slim Casement Sash (45mm depth)
+    const wa45Kin = { type: 'casement', pivot: new THREE.Vector3(-3.8, 0, 0.4), axis: new THREE.Vector3(0, 1, 0), maxAngle: -Math.PI / 2.2 };
+
     const sashBottom = createHollowBox(9.5, 2.4, 4.2, 0.3, m.alumDark);
     sashBottom.position.set(2.0, -0.9, 0.4);
-    addPart(group, sashBottom, new THREE.Vector3(0, 2.5, 3.5));
+    addPart(group, sashBottom, new THREE.Vector3(0, 2.5, 3.5), wa45Kin);
 
     const sashJamb = createHollowBox(2.4, 9.5, 4.2, 0.3, m.alumDark);
     sashJamb.position.set(-1.6, 2.7, 0.4);
-    addPart(group, sashJamb, new THREE.Vector3(-2.0, 2.5, 3.5));
+    addPart(group, sashJamb, new THREE.Vector3(-2.0, 2.5, 3.5), wa45Kin);
 
     // Glass pane
     const glassPane = new THREE.Mesh(new THREE.BoxGeometry(8.0, 8.0, 0.35), m.glass);
     glassPane.position.set(3.0, 4.2, 0.4);
-    addPart(group, glassPane, new THREE.Vector3(0, 5.0, 3.5));
+    addPart(group, glassPane, new THREE.Vector3(0, 5.0, 3.5), wa45Kin);
 
     group.position.set(0, -1.5, 0);
 
     return {
       group,
+      operable: { type: 'casement', labelEn: 'Open Sash', labelAr: 'فتح الدلفة' },
       hotspots: {
         frameDepth: { pos: new THREE.Vector3(1, -3.1, 2.5), labelEn: 'Frame Depth: 45 mm', labelAr: 'عمق الحلق: 45 ملم' },
         solidExtrusion: { pos: new THREE.Vector3(2.0, -0.9, 2.5), labelEn: 'Non-Thermal Hollow Chamber', labelAr: 'قطاع اقتصادي أحادي التجويف' },
@@ -340,28 +363,30 @@
     inoxRail2.position.set(0, -2.7, -3.2);
     addPart(group, inoxRail2, new THREE.Vector3(0, 1.0, -2.0));
 
-    // 2. Sliding Sash (Riding on front track)
+    // 2. Operable Sliding Sash (Riding on front track)
+    const satKin = { type: 'slide', delta: new THREE.Vector3(6.0, 0, 0) };
+
     const sashBottom = createHollowBox(12, 3.2, 5.0, 0.35, m.alumDark);
     sashBottom.position.set(1.5, -0.8, 3.2);
-    addPart(group, sashBottom, new THREE.Vector3(0, 2.5, 3.0));
+    addPart(group, sashBottom, new THREE.Vector3(0, 2.5, 3.0), satKin);
 
     const sashStile = createHollowBox(3.0, 10, 5.0, 0.35, m.alumDark);
     sashStile.position.set(-3.0, 3.8, 3.2);
-    addPart(group, sashStile, new THREE.Vector3(-2.0, 2.5, 3.0));
+    addPart(group, sashStile, new THREE.Vector3(-2.0, 2.5, 3.0), satKin);
 
     // Sash Polyamide Break
     const sashThermal = new THREE.Mesh(new THREE.BoxGeometry(12, 0.5, 1.0), m.polyamide);
     sashThermal.position.set(1.5, 0.2, 3.2);
-    addPart(group, sashThermal, new THREE.Vector3(0, 2.8, 3.0));
+    addPart(group, sashThermal, new THREE.Vector3(0, 2.8, 3.0), satKin);
 
     // Thick Double Glazed Unit (IGU 24-38mm)
     const glassPane1 = new THREE.Mesh(new THREE.BoxGeometry(10, 8.5, 0.35), m.glass);
     glassPane1.position.set(2.5, 5.2, 2.7);
-    addPart(group, glassPane1, new THREE.Vector3(0, 5.0, 2.5));
+    addPart(group, glassPane1, new THREE.Vector3(0, 5.0, 2.5), satKin);
 
     const glassPane2 = new THREE.Mesh(new THREE.BoxGeometry(10, 8.5, 0.35), m.glass);
     glassPane2.position.set(2.5, 5.2, 3.7);
-    addPart(group, glassPane2, new THREE.Vector3(0, 5.0, 4.0));
+    addPart(group, glassPane2, new THREE.Vector3(0, 5.0, 4.0), satKin);
 
     // 3. Stepped Rear Panel on back track
     const rearSash = createHollowBox(8, 9.0, 4.5, 0.35, m.alumDark);
@@ -372,6 +397,7 @@
 
     return {
       group,
+      operable: { type: 'slide', labelEn: 'Slide Sash', labelAr: 'سحب الدلفة' },
       hotspots: {
         frameDepth: { pos: new THREE.Vector3(0, -4.0, 6.0), labelEn: 'Frame Depth: 120 mm (2-Rail)', labelAr: 'عمق المسار: 120 ملم' },
         inoxRail: { pos: new THREE.Vector3(0, -2.5, 3.2), labelEn: 'Heavy Inox Stainless Track', labelAr: 'مسار ستانلس ستيل فائق السلاسة' },
@@ -398,17 +424,19 @@
     addPart(group, jamb, new THREE.Vector3(-2.0, 0, 0));
 
     // Front Sliding Panel (with rounded pull stile)
+    const slatKin = { type: 'slide', delta: new THREE.Vector3(-5.0, 0, 0) };
+
     const frontSashBottom = createHollowBox(10, 1.8, 3.4, 0.3, m.alumDark);
     frontSashBottom.position.set(0.2, -2.8, 1.6);
-    addPart(group, frontSashBottom, new THREE.Vector3(0, 0, 2.5));
+    addPart(group, frontSashBottom, new THREE.Vector3(0, 0, 2.5), slatKin);
 
     const frontStile = createHollowBox(2.2, 10, 3.4, 0.3, m.alumDark);
     frontStile.position.set(4.1, 2.2, 1.6);
-    addPart(group, frontStile, new THREE.Vector3(1.5, 0, 2.5));
+    addPart(group, frontStile, new THREE.Vector3(1.5, 0, 2.5), slatKin);
 
     const frontGlass = new THREE.Mesh(new THREE.BoxGeometry(8.5, 8.5, 0.35), m.glass);
     frontGlass.position.set(0.0, 3.2, 1.6);
-    addPart(group, frontGlass, new THREE.Vector3(0, 2.0, 3.5));
+    addPart(group, frontGlass, new THREE.Vector3(0, 2.0, 3.5), slatKin);
 
     // Rear Sliding Panel (stepped behind)
     const rearSashBottom = createHollowBox(10, 1.8, 3.4, 0.3, m.alumDark);
@@ -427,6 +455,7 @@
 
     return {
       group,
+      operable: { type: 'slide', labelEn: 'Slide Sash', labelAr: 'سحب الدلفة' },
       hotspots: {
         frameDepth: { pos: new THREE.Vector3(0, -4.5, 3.4), labelEn: 'Frame Depth: 64 mm', labelAr: 'عمق الإطار: 64 ملم' },
         frontSash: { pos: new THREE.Vector3(4.1, 2.2, 2.0), labelEn: 'Front Sliding Sash (38mm)', labelAr: 'الدلفة الأمامية المنزلقة 38 ملم' },
@@ -453,6 +482,13 @@
     jamb.position.set(-5.5, 1.0, -2.0);
     addPart(group, jamb, new THREE.Vector3(-2.0, 0, 0));
 
+    // Accordion fold kinematics
+    const kinF1 = { type: 'rotate', pivot: new THREE.Vector3(-5.3, 1.0, -1.8), axis: new THREE.Vector3(0, 1, 0), maxAngle: -0.6 };
+    const kinF2 = { type: 'compound', delta: new THREE.Vector3(-2.8, 0, -1.2), pivot: new THREE.Vector3(0.6, 1.0, 0.6), axis: new THREE.Vector3(0, 1, 0), maxAngle: 0.8 };
+    const kinF3 = { type: 'compound', delta: new THREE.Vector3(-5.2, 0, -2.0), pivot: new THREE.Vector3(4.6, 1.0, 2.2), axis: new THREE.Vector3(0, 1, 0), maxAngle: -0.7 };
+    const kinH2 = { type: 'slide', delta: new THREE.Vector3(-2.0, 0, -0.8) };
+    const kinH3 = { type: 'slide', delta: new THREE.Vector3(-4.5, 0, -1.6) };
+
     // Leaf 1 (Leftmost, angled)
     const leaf1 = new THREE.Group();
     const f1 = createHollowBox(5.5, 9.5, 1.2, 0.25, m.alumDark);
@@ -460,7 +496,7 @@
     leaf1.add(f1); leaf1.add(g1);
     leaf1.rotation.y = -Math.PI / 5;
     leaf1.position.set(-3.2, 1.0, -0.8);
-    addPart(group, leaf1, new THREE.Vector3(-1.5, 1.0, -1.5));
+    addPart(group, leaf1, new THREE.Vector3(-1.5, 1.0, -1.5), kinF1);
 
     // Leaf 2 (Middle, angled opposite)
     const leaf2 = new THREE.Group();
@@ -469,7 +505,7 @@
     leaf2.add(f2); leaf2.add(g2);
     leaf2.rotation.y = Math.PI / 4;
     leaf2.position.set(0.6, 1.0, 0.6);
-    addPart(group, leaf2, new THREE.Vector3(0, 1.0, 2.0));
+    addPart(group, leaf2, new THREE.Vector3(0, 1.0, 2.0), kinF2);
 
     // Leaf 3 (Right, angled forward)
     const leaf3 = new THREE.Group();
@@ -478,7 +514,7 @@
     leaf3.add(f3); leaf3.add(g3);
     leaf3.rotation.y = -Math.PI / 6;
     leaf3.position.set(4.6, 1.0, 2.2);
-    addPart(group, leaf3, new THREE.Vector3(2.5, 1.0, 3.5));
+    addPart(group, leaf3, new THREE.Vector3(2.5, 1.0, 3.5), kinF3);
 
     // Barrel Hinges connecting leaves
     const hGeo = new THREE.CylinderGeometry(0.3, 0.3, 2.0, 16);
@@ -488,16 +524,17 @@
 
     const h2 = new THREE.Mesh(hGeo, m.epdm);
     h2.position.set(-1.3, 0.5, 0.0);
-    addPart(group, h2, new THREE.Vector3(0, 1.0, 1.0));
+    addPart(group, h2, new THREE.Vector3(0, 1.0, 1.0), kinH2);
 
     const h3 = new THREE.Mesh(hGeo, m.epdm);
     h3.position.set(2.6, 0.5, 1.4);
-    addPart(group, h3, new THREE.Vector3(1.5, 1.0, 2.5));
+    addPart(group, h3, new THREE.Vector3(1.5, 1.0, 2.5), kinH3);
 
     group.position.set(0, -1.0, 0);
 
     return {
       group,
+      operable: { type: 'bifold', labelEn: 'Accordion Fold', labelAr: 'طي أوكورديون' },
       hotspots: {
         leafDepth: { pos: new THREE.Vector3(0.6, 2.0, 1.0), labelEn: 'Leaf Depth: 55 mm', labelAr: 'سماكة الدلفة: 55 ملم' },
         hinge: { pos: new THREE.Vector3(2.6, 0.5, 1.6), labelEn: 'Heavy Bi-Fold Multi-Hinge', labelAr: 'مفصلات طي أسطوانية معززة' },
@@ -523,6 +560,9 @@
     jamb.position.set(-5.0, 1.0, -1.5);
     addPart(group, jamb, new THREE.Vector3(-2.0, 0, 0));
 
+    const kinF1 = { type: 'rotate', pivot: new THREE.Vector3(-5.0, 1.0, -1.5), axis: new THREE.Vector3(0, 1, 0), maxAngle: -0.65 };
+    const kinF2 = { type: 'compound', delta: new THREE.Vector3(-3.5, 0, -1.0), pivot: new THREE.Vector3(2.5, 1.0, 0.0), axis: new THREE.Vector3(0, 1, 0), maxAngle: 0.85 };
+
     // Leaf 1 (Left, V-angled)
     const leaf1 = new THREE.Group();
     const f1Outer = createHollowBox(7.0, 10, 1.8, 0.3, m.alumDark);
@@ -534,7 +574,7 @@
     leaf1.add(f1Outer); leaf1.add(f1Inner); leaf1.add(poly1); leaf1.add(g1);
     leaf1.rotation.y = -Math.PI / 4;
     leaf1.position.set(-2.5, 1.0, 0.0);
-    addPart(group, leaf1, new THREE.Vector3(-1.5, 1.0, -1.0));
+    addPart(group, leaf1, new THREE.Vector3(-1.5, 1.0, -1.0), kinF1);
 
     // Leaf 2 (Right, V-angled meeting leaf 1)
     const leaf2 = new THREE.Group();
@@ -547,17 +587,18 @@
     leaf2.add(f2Outer); leaf2.add(f2Inner); leaf2.add(poly2); leaf2.add(g2);
     leaf2.rotation.y = Math.PI / 4;
     leaf2.position.set(2.5, 1.0, 0.0);
-    addPart(group, leaf2, new THREE.Vector3(2.0, 1.0, 2.0));
+    addPart(group, leaf2, new THREE.Vector3(2.0, 1.0, 2.0), kinF2);
 
     // Heavy meeting stile on leaf 2
     const meetingStile = createHollowBox(1.5, 10.2, 4.2, 0.3, m.alumDark);
     meetingStile.position.set(4.8, 1.0, 1.8);
-    addPart(group, meetingStile, new THREE.Vector3(3.0, 1.0, 2.5));
+    addPart(group, meetingStile, new THREE.Vector3(3.0, 1.0, 2.5), kinF2);
 
     group.position.set(0, -1.0, 0);
 
     return {
       group,
+      operable: { type: 'bifold', labelEn: 'Accordion Fold', labelAr: 'طي أوكورديون' },
       hotspots: {
         frameDepth: { pos: new THREE.Vector3(0, -4.5, 2.5), labelEn: 'Frame Depth: 70 mm', labelAr: 'عمق الإطار: 70 ملم' },
         polyamide: { pos: new THREE.Vector3(-2.5, 1.0, 0), labelEn: '30 mm Polyamide Thermal Barrier', labelAr: 'عازل حراري بولي أميد 30 ملم' },
@@ -596,14 +637,16 @@
     gBottomRight.position.set(3.5, -3.5, 0);
     addPart(group, gBottomRight, new THREE.Vector3(1.5, -1.5, 2.0));
 
-    // Top-Right Quadrant: Concealed Operable Vent Sash (HV)
+    // Top-Right Quadrant: Concealed Operable Vent Sash (HV) - Top-hung outward projector
+    const cwaKin = { type: 'rotate', pivot: new THREE.Vector3(3.5, 6.75, 0), axis: new THREE.Vector3(1, 0, 0), maxAngle: 0.38 };
+
     const hvSash = createHollowBox(6.5, 6.5, 2.4, 0.25, m.alumSilver);
     hvSash.position.set(3.5, 3.5, -1.2);
-    addPart(group, hvSash, new THREE.Vector3(2.5, 2.5, 1.5));
+    addPart(group, hvSash, new THREE.Vector3(2.5, 2.5, 1.5), cwaKin);
 
     const gTopRight = new THREE.Mesh(new THREE.BoxGeometry(6.5, 6.5, 0.4), m.glass);
     gTopRight.position.set(3.5, 3.5, 0);
-    addPart(group, gTopRight, new THREE.Vector3(2.5, 2.5, 3.0));
+    addPart(group, gTopRight, new THREE.Vector3(2.5, 2.5, 3.0), cwaKin);
 
     // Exterior Vertical & Horizontal Pressure Caps (50mm width)
     const capVert = new THREE.Mesh(new THREE.BoxGeometry(0.8, 16, 0.6), m.alumCap);
@@ -616,6 +659,7 @@
 
     return {
       group,
+      operable: { type: 'projected', labelEn: 'Project Outward', labelAr: 'فتح قلاب للخارج' },
       hotspots: {
         faceWidth: { pos: new THREE.Vector3(0, 0, 0.8), labelEn: 'Face Width: 50 mm', labelAr: 'عرض الواجهة: 50 ملم' },
         mullionDepth: { pos: new THREE.Vector3(0, 3, -8.0), labelEn: 'Mullion Depth: 80–180 mm', labelAr: 'عمق العارضة الهيكلية: 80–180 ملم' },
@@ -831,16 +875,18 @@
     addPart(group, fixGlass, new THREE.Vector3(-2.0, 0, 1.5));
 
     // Right: Hinged Door Leaf (rotated slightly open)
+    const ipaKin = { type: 'rotate', pivot: new THREE.Vector3(0.6, 0, 1.8), axis: new THREE.Vector3(0, 1, 0), maxAngle: 1.1 };
     const doorLeaf = new THREE.Group();
     const doorFrame = createHollowBox(6.5, 13, 1.2, 0.2, m.alumSilver);
     const doorGlass = new THREE.Mesh(new THREE.BoxGeometry(5.5, 12, 0.35), m.glass);
     doorLeaf.add(doorFrame); doorLeaf.add(doorGlass);
     doorLeaf.rotation.y = Math.PI / 8; // Slightly open door
     doorLeaf.position.set(3.8, 0, 0.6);
-    addPart(group, doorLeaf, new THREE.Vector3(3.0, 0, 2.5));
+    addPart(group, doorLeaf, new THREE.Vector3(3.0, 0, 2.5), ipaKin);
 
     return {
       group,
+      operable: { type: 'swing', labelEn: 'Swing Door', labelAr: 'فتح الباب' },
       hotspots: {
         faceWidth: { pos: new THREE.Vector3(-4.0, 6.0, 0), labelEn: 'Slimline 30 mm Face Width', labelAr: 'قواطع نحيفة بعرض 30 ملم' },
         barrelHinge: { pos: new THREE.Vector3(0.6, 1.0, 2.0), labelEn: 'Integrated Architectural Hinge', labelAr: 'مفصلات أبواب مكتبية أسطوانية' },
@@ -928,21 +974,23 @@
     addPart(group, jambR, new THREE.Vector3(2.0, 0, 0));
 
     // 3 Vertically Cascading Glass Sashes
-    // Top Sash (Retractable)
+    // Top Sash (Retractable - slides down)
+    const topKin = { type: 'slide', delta: new THREE.Vector3(0, -6.4, 0) };
     const topSash = new THREE.Group();
     const topRail = createHollowBox(11, 1.0, 1.2, 0.25, m.alumDark);
     const topGlass = new THREE.Mesh(new THREE.BoxGeometry(10.5, 3.8, 0.35), m.glass);
     topSash.add(topRail); topSash.add(topGlass);
     topSash.position.set(0, 3.5, -1.0);
-    addPart(group, topSash, new THREE.Vector3(0, 2.0, -1.0));
+    addPart(group, topSash, new THREE.Vector3(0, 2.0, -1.0), topKin);
 
-    // Middle Sash (Retractable)
+    // Middle Sash (Retractable - slides down)
+    const midKin = { type: 'slide', delta: new THREE.Vector3(0, -3.2, 0) };
     const midSash = new THREE.Group();
     const midRail = createHollowBox(11, 1.0, 1.2, 0.25, m.alumDark);
     const midGlass = new THREE.Mesh(new THREE.BoxGeometry(10.5, 3.8, 0.35), m.glass);
     midSash.add(midRail); midSash.add(midGlass);
     midSash.position.set(0, 0.2, 0.2);
-    addPart(group, midSash, new THREE.Vector3(0, 0, 2.0));
+    addPart(group, midSash, new THREE.Vector3(0, 0, 2.0), midKin);
 
     // Bottom Sash (Fixed Structural Balustrade Pane)
     const botSash = new THREE.Group();
@@ -957,8 +1005,11 @@
     sill.position.set(0, -6.5, 0);
     addPart(group, sill, new THREE.Vector3(0, -2.5, 0));
 
+    group.position.set(0, -1.0, 0);
+
     return {
       group,
+      operable: { type: 'guillotine', labelEn: 'Lower Panels', labelAr: 'خفض الألواح' },
       hotspots: {
         motorBox: { pos: new THREE.Vector3(0, 7.5, 2.5), labelEn: 'Motorized Roller Tube Box', labelAr: 'صندوق المحرك والأسطوانة العلوية' },
         cascadingSashes: { pos: new THREE.Vector3(0, 1.0, 1.0), labelEn: '3-Tier Cascading Glass Panels', labelAr: '3 أضلاف زجاجية متحركة رأسياً' },
@@ -987,8 +1038,10 @@
 
   // Public Geometry API
   window.AinZaraProfileGeometries = {
-    build: function (modelId) {
-      const materials = createMaterials();
+    FINISHES: FINISHES,
+    createMaterials: createMaterials,
+    build: function (modelId, finishId) {
+      const materials = createMaterials(finishId);
       const builder = BUILDERS[modelId] || BUILDERS.wat63;
       return builder(materials);
     }

@@ -3085,38 +3085,40 @@ ul, ol {
 /* 3D Disclaimer Notice - Eye-Catching Architectural Warning Callout */
 .viewer-3d-disclaimer {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  background-color: rgba(15, 23, 42, 0.94);
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  background-color: rgba(15, 23, 42, 0.90);
   color: #FEF3C7;
-  font-size: 0.6875rem;
-  line-height: 1.4;
+  font-size: 0.625rem;
+  line-height: 1.25;
   font-weight: 600;
-  padding: 6px 10px;
+  padding: 3px 8px;
   border-radius: var(--radius-sm);
-  border: 1px solid #F59E0B;
-  border-left: 4px solid #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.6);
+  border-left: 3px solid #F59E0B;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
   z-index: 12;
   pointer-events: auto;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 28px;
+  overflow: hidden;
+  transition: max-height 0.25s ease, padding 0.25s ease, background-color var(--transition-fast);
 }
 
 [dir="rtl"] .viewer-3d-disclaimer {
-  border-left: 1px solid #F59E0B;
-  border-right: 4px solid #F59E0B;
+  border-left: 1px solid rgba(245, 158, 11, 0.6);
+  border-right: 3px solid #F59E0B;
 }
 
 .viewer-3d-disclaimer .disclaimer-content {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex: 1;
   min-width: 0;
 }
@@ -3124,12 +3126,12 @@ ul, ol {
 .viewer-3d-disclaimer .disclaimer-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   background-color: #F59E0B;
   color: #0F172A;
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 800;
-  padding: 2px 6px;
+  padding: 1.5px 5px;
   border-radius: 3px;
   flex-shrink: 0;
   letter-spacing: 0.3px;
@@ -3139,10 +3141,16 @@ ul, ol {
 .viewer-3d-disclaimer .disclaimer-badge svg {
   flex-shrink: 0;
   color: #0F172A;
+  width: 11px;
+  height: 11px;
+}
+
+.viewer-3d-disclaimer .badge-text-full {
+  display: none;
 }
 
 .viewer-3d-disclaimer .badge-text-short {
-  display: none;
+  display: inline;
 }
 
 .viewer-3d-disclaimer .disclaimer-text {
@@ -3150,14 +3158,24 @@ ul, ol {
   min-width: 0;
 }
 
-.viewer-3d-disclaimer .disclaimer-text-short {
+.viewer-3d-disclaimer .disclaimer-text-full {
   display: none;
+}
+
+.viewer-3d-disclaimer .disclaimer-text-short {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.625rem;
+  line-height: 1.25;
+  color: #FDE68A;
 }
 
 .viewer-3d-disclaimer .disclaimer-controls {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   flex-shrink: 0;
 }
 
@@ -3171,16 +3189,16 @@ ul, ol {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   padding: 0;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1;
   transition: all var(--transition-fast);
 }
 
 .viewer-3d-disclaimer .disclaimer-expand-btn {
-  display: none;
+  display: inline-flex;
 }
 
 .viewer-3d-disclaimer .disclaimer-expand-btn svg {
@@ -3192,6 +3210,31 @@ ul, ol {
   background: #F59E0B;
   color: #0F172A;
   border-color: #F59E0B;
+}
+
+/* Expanded state on PC if user clicks expand chevron */
+.viewer-3d-disclaimer.is-expanded {
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 6px 10px;
+  align-items: flex-start;
+}
+
+.viewer-3d-disclaimer.is-expanded .disclaimer-content {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.viewer-3d-disclaimer.is-expanded .disclaimer-text-short {
+  display: none;
+}
+
+.viewer-3d-disclaimer.is-expanded .disclaimer-text-full {
+  display: block;
+  white-space: normal;
+  font-size: 0.625rem;
+  line-height: 1.35;
+  margin-top: 2px;
 }
 
 /* Floating restore pill button when dismissed */

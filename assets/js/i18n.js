@@ -295,6 +295,7 @@
       dl_filter_vertical: "السحب الرأسي (LOGAN)",
       dl_filter_certificates: "شهادات الجودة (6)",
 
+      dl_fmt_label: "صيغة الملف:",
       dl_fmt_all: "كافة الصيغ",
       dl_fmt_pdf: "كتالوجات PDF",
       dl_fmt_cad: "مخططات CAD (DWG / DXF)",
@@ -302,6 +303,7 @@
       dl_fmt_cert: "شهادات الاختبار",
 
       // System Cards Actions
+      dl_tech_files_title: "المخططات الفنية والملفات الهندسية",
       dl_btn_pdf: "الكتالوج الفني",
       dl_btn_dwg: "أوتوكاد (DWG)",
       dl_btn_dxf: "مخطط تفصيلي (DXF)",

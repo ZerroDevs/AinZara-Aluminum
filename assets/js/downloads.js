@@ -173,7 +173,7 @@
 
           <!-- Downloads Asset Bar -->
           <div class="dl-card-downloads">
-            <div class="dl-download-group-title">Technical Files & Engineering Assets</div>
+            <div class="dl-download-group-title">${t('dl_tech_files_title')}</div>
             <div class="dl-download-buttons-grid">
               <!-- 1. PDF Tech Sheet -->
               <a href="${pdfHref}" download="${pdfFilename}" target="_blank" class="dl-file-btn btn-pdf ${currentFormat === 'pdf' ? 'highlight-active' : ''}" title="Download bilingual technical data sheet">

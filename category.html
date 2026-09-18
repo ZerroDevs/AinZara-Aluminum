@@ -146,6 +146,10 @@
   <div id="footer-placeholder"></div>
 
   <!-- Scripts -->
+  <script src="assets/js/vendor/three.min.js"></script>
+  <script src="assets/js/vendor/OrbitControls.js"></script>
+  <script src="assets/js/profile-geometries.js"></script>
+  <script src="assets/js/profile-3d.js"></script>
   <script src="assets/js/header.js"></script>
   <script src="assets/js/footer.js"></script>
   <script src="assets/js/i18n.js"></script>
@@ -259,10 +263,41 @@
           const desc = (lang === 'ar' ? sys.descAr : sys.descEn);
 
           profilesHtml += `
-            <div class="system-card" style="margin-bottom: 2.5rem; display: flex; flex-direction: row; flex-wrap: wrap;">
-              <div style="flex: 1; min-width: 280px; padding: 2rem; background: #FFFFFF; display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--color-border);" data-lightbox-system="${sys.id}">
-                <img src="${sys.img}" alt="${title}" style="max-height: 260px; width: auto; object-fit: contain; cursor: pointer;">
+            <div class="system-card" id="card-${sys.id}" style="margin-bottom: 2.5rem; display: flex; flex-direction: row; flex-wrap: wrap;">
+              <!-- Media Split Column (Interactive 3D + 2D CAD Schematic) -->
+              <div style="flex: 1.1; min-width: 300px; padding: 1.5rem; background: #FFFFFF; display: flex; flex-direction: column; border-right: 1px solid var(--color-border);">
+                <!-- Viewport Segment Switcher (2D Default as per engineering standard) -->
+                <div class="card-view-tabs">
+                  <button type="button" class="card-view-tab active" data-tab-for="${sys.id}" data-target-panel="2d-${sys.id}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span>${lang === 'ar' ? 'المخطط الهندسي 2D (افتراضي)' : '2D Schematic (Default)'}</span>
+                  </button>
+                  <button type="button" class="card-view-tab" data-tab-for="${sys.id}" data-target-panel="3d-${sys.id}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 4.9V17L12 22l-9-5V6.9L12 2z"/><path d="M12 22V12"/><path d="M21 7l-9 5-9-5"/></svg>
+                    <span>${lang === 'ar' ? 'نموذج 3D تفاعلي' : '3D Interactive Model'}</span>
+                  </button>
+                </div>
+
+                <!-- Subtle Reference Note -->
+                <div style="font-size: 0.6875rem; color: var(--color-slate-medium); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 4px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                  <span>${lang === 'ar' ? 'المخطط الهندسي 2D هو المرجع التصنيعي الأساسي للمقاسات' : '2D CAD schematic is the primary manufacturing specification'}</span>
+                </div>
+
+                <!-- 2D Schematic Static Panel (Active by default) -->
+                <div class="card-media-panel active" id="panel-2d-${sys.id}">
+                  <div class="card-schematic-img-wrap" onclick="window.AinZaraApp.openLightbox('${sys.id}')" title="${lang === 'ar' ? 'انقر لتكبير المخطط الهندسي' : 'Click to inspect high-resolution schematic'}">
+                    <img src="${sys.img}" alt="${title}" class="card-schematic-img">
+                  </div>
+                </div>
+
+                <!-- 3D Interactive WebGL Panel (Selectable on demand) -->
+                <div class="card-media-panel" id="panel-3d-${sys.id}">
+                  <div id="cat-3d-${sys.id}" style="width: 100%; height: 100%;"></div>
+                </div>
               </div>
+
+              <!-- Technical Specifications Column -->
               <div style="flex: 1.5; min-width: 320px; padding: 2rem; display: flex; flex-direction: column;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                   <div>
@@ -275,18 +310,21 @@
                 
                 <div class="spec-table-wrap">
                   <table class="spec-table">
-                    <tr><th data-i18n="spec_frame_depth">Frame Depth</th><td>${sys.frameDepth}</td></tr>
-                    <tr><th data-i18n="spec_vent_depth">Vent Depth</th><td>${sys.ventDepth}</td></tr>
-                    <tr><th data-i18n="spec_glass_thickness">Glass Range</th><td>${sys.glassRange}</td></tr>
-                    <tr><th data-i18n="spec_thermal_rating">Thermal Barrier</th><td>${sys.insulation}</td></tr>
-                    <tr><th data-i18n="spec_air_water">Air & Water</th><td>${sys.airWater}</td></tr>
+                    <tr><th data-i18n="spec_frame_depth">${lang === 'ar' ? 'عمق الحلق (الإطار)' : 'Frame Depth'}</th><td>${sys.frameDepth}</td></tr>
+                    <tr><th data-i18n="spec_vent_depth">${lang === 'ar' ? 'عمق الدلفة' : 'Vent Depth'}</th><td>${sys.ventDepth}</td></tr>
+                    <tr><th data-i18n="spec_glass_thickness">${lang === 'ar' ? 'سماكة الزجاج' : 'Glass Range'}</th><td>${sys.glassRange}</td></tr>
+                    <tr><th data-i18n="spec_thermal_rating">${lang === 'ar' ? 'العزل الحراري' : 'Thermal Barrier'}</th><td>${sys.insulation}</td></tr>
+                    <tr><th data-i18n="spec_air_water">${lang === 'ar' ? 'مقاومة الهواء والماء' : 'Air & Water'}</th><td>${sys.airWater}</td></tr>
                   </table>
                 </div>
 
                 <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: auto;">
-                  <button type="button" class="btn btn-outline" onclick="window.AinZaraApp.openLightbox('${sys.id}')">3D Cross Section Visualizer</button>
-                  <button type="button" class="btn btn-outline" data-download-catalog="${sys.name}">Technical Sheet (PDF)</button>
-                  <button type="button" class="btn btn-primary" onclick="window.AinZaraApp.openRfqModal('${sys.id}')">Request Quote</button>
+                  <button type="button" class="btn btn-outline" onclick="window.AinZara3D.openModal('${sys.id}')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M12 2l9 4.9V17L12 22l-9-5V6.9L12 2z"/><path d="M12 22V12"/><path d="M21 7l-9 5-9-5"/></svg>
+                    ${lang === 'ar' ? 'فحص كامل 3D (تفكيك الأجزاء)' : 'Full 3D Inspection'}
+                  </button>
+                  <button type="button" class="btn btn-outline" data-download-catalog="${sys.name}">${lang === 'ar' ? 'تحميل الكتالوج (PDF)' : 'Technical Sheet (PDF)'}</button>
+                  <button type="button" class="btn btn-primary" onclick="window.AinZaraApp.openRfqModal('${sys.id}')">${lang === 'ar' ? 'طلب تسعيرة' : 'Request Quote'}</button>
                 </div>
               </div>
             </div>
@@ -302,6 +340,68 @@
             ${profilesHtml}
           </div>
         `;
+
+        // Track mounted 3D viewers
+        const mountedViewers = new Map();
+
+        // Helper to mount 3D on demand
+        function activate3DViewer(sysId) {
+          if (!mountedViewers.has(sysId)) {
+            if (window.AinZara3D && window.AinZara3D.mount) {
+              const viewer = window.AinZara3D.mount('#cat-3d-' + sysId, sysId, {
+                showHud: true,
+                allowExplode: true,
+                allowDimensions: true,
+                autoRotate: false
+              });
+              mountedViewers.set(sysId, viewer);
+            }
+          } else {
+            const viewer = mountedViewers.get(sysId);
+            if (viewer && viewer.onResize) {
+              setTimeout(() => viewer.onResize(), 50);
+            }
+          }
+        }
+
+        // Tab switcher event listeners (2D Default, 3D on demand)
+        document.querySelectorAll('.card-view-tab').forEach(tab => {
+          tab.addEventListener('click', function() {
+            const sysId = this.getAttribute('data-tab-for');
+            const targetPanelId = this.getAttribute('data-target-panel');
+            
+            // Toggle active on tabs
+            document.querySelectorAll(`[data-tab-for="${sysId}"]`).forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            // Toggle active on panels
+            const p3d = document.getElementById('panel-3d-' + sysId);
+            const p2d = document.getElementById('panel-2d-' + sysId);
+            if (p3d && p2d) {
+              if (targetPanelId === '3d-' + sysId) {
+                p2d.classList.remove('active');
+                p3d.classList.add('active');
+                activate3DViewer(sysId);
+              } else {
+                p3d.classList.remove('active');
+                p2d.classList.add('active');
+              }
+            }
+          });
+        });
+
+        // Auto-scroll to specific profile if passed in query param (e.g. ?cat=sliding&profile=wat63)
+        const targetProfile = params.get('profile');
+        if (targetProfile) {
+          const cardElem = document.getElementById('card-' + targetProfile);
+          if (cardElem) {
+            setTimeout(() => {
+              cardElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              cardElem.style.border = '2px solid var(--color-secondary)';
+              cardElem.style.boxShadow = '0 0 16px rgba(42, 120, 184, 0.4)';
+            }, 300);
+          }
+        }
 
         // Re-bind lightbox and download listeners
         if (window.AinZaraApp && window.AinZaraApp.initDownloadTriggers) {

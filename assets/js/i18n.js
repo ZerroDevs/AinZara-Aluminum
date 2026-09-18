@@ -66,6 +66,14 @@
       btn_view_cross_section: "Cross-Section Schematics",
       btn_download_catalog: "Download Technical Catalog",
       btn_download_cad: "CAD / DWG Details",
+      btn_3d_view: "3D View",
+      btn_exploded_view: "Exploded View",
+      btn_dimensions: "Dimensions",
+      btn_reset_camera: "Reset View",
+      tab_3d_model: "3D Interactive Model",
+      tab_2d_schematic: "2D CAD Schematic",
+      modal_3d_title: "3D CAD Model Inspection",
+      note_3d_disclaimer: "Interactive 3D representation • For exact manufacturing specifications refer to official 2D CAD schematic",
 
       // Glass Capabilities
       glass_title: "Automated Glass Processing Plant",
@@ -157,6 +165,14 @@
       btn_view_cross_section: "مخطط القطاع الهندسي",
       btn_download_catalog: "تحميل الكتالوج الفني",
       btn_download_cad: "تفاصيل أوتوكاد CAD/DWG",
+      btn_3d_view: "ثلاثي الأبعاد 3D",
+      btn_exploded_view: "منظور مفكك",
+      btn_dimensions: "الأبعاد الهندسية",
+      btn_reset_camera: "إعادة الضبط",
+      tab_3d_model: "نموذج ثلاثي الأبعاد 3D",
+      tab_2d_schematic: "المخطط الهندسي 2D",
+      modal_3d_title: "فحص النموذج ثلاثي الأبعاد CAD",
+      note_3d_disclaimer: "نموذج ثلاثي أبعاد توضيحي للتصور المعماري • تعتمد القياسات التنفيذية الدقيقة على المخطط الهندسي 2D",
 
       // Glass Capabilities
       glass_title: "مصنع معالجة وتطوير الزجاج الآلي",

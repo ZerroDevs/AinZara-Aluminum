@@ -126,3 +126,18 @@
   text-align: right;
 }
 
+/* 3D WebGL Profile Viewer RTL */
+[dir="rtl"] .btn-3d-badge {
+  left: auto;
+  right: 12px;
+}
+
+[dir="rtl"] .hud-btn.btn-fullscreen {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .modal-3d-specs {
+  text-align: right;
+}
+

@@ -324,6 +324,33 @@
       }
     });
 
+    // Update Master Catalog and Technical Sheet PDF download links according to active language
+    const masterLinks = document.querySelectorAll('a[href*="AinZara-Master-Architectural-Catalog"]');
+    masterLinks.forEach(link => {
+      if (lang === 'ar') {
+        link.setAttribute('href', 'assets/downloads/pdf/AinZara-Master-Architectural-Catalog-ar.pdf');
+        link.setAttribute('download', 'AinZara-Master-Architectural-Catalog-ar.pdf');
+      } else {
+        link.setAttribute('href', 'assets/downloads/pdf/AinZara-Master-Architectural-Catalog.pdf');
+        link.setAttribute('download', 'AinZara-Master-Architectural-Catalog.pdf');
+      }
+    });
+
+    const techSheetLinks = document.querySelectorAll('a[href*="-technical-sheet"]');
+    techSheetLinks.forEach(link => {
+      let href = link.getAttribute('href') || '';
+      let download = link.getAttribute('download') || '';
+      if (lang === 'ar') {
+        if (!href.includes('-ar.pdf')) href = href.replace('.pdf', '-ar.pdf');
+        if (download && !download.includes('-ar.pdf')) download = download.replace('.pdf', '-ar.pdf');
+      } else {
+        href = href.replace('-ar.pdf', '.pdf');
+        if (download) download = download.replace('-ar.pdf', '.pdf');
+      }
+      link.setAttribute('href', href);
+      if (download) link.setAttribute('download', download);
+    });
+
     document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
   }
 

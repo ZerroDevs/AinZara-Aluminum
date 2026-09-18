@@ -109,13 +109,31 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/AinZara-Master-Architectural-Catalog-ar.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/assets/downloads/pdf/AinZara-Master-Architectural-Catalog.pdf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/CWA50HV-technical-sheet-ar.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/assets/downloads/pdf/CWA50HV-technical-sheet.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/CWA50sg-technical-sheet-ar.pdf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -127,7 +145,19 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/fat55-technical-sheet-ar.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/assets/downloads/pdf/fat55-technical-sheet.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/fat70-technical-sheet-ar.pdf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -139,7 +169,19 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/gsa130-technical-sheet-ar.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/assets/downloads/pdf/gsa130-technical-sheet.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/ipa30-technical-sheet-ar.pdf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -151,7 +193,19 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/ipa45-technical-sheet-ar.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/assets/downloads/pdf/ipa45-technical-sheet.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/sa65-2-technical-sheet-ar.pdf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -163,7 +217,19 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/sa65-technical-sheet-ar.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/assets/downloads/pdf/sa65-technical-sheet.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/sat120-technical-sheet-ar.pdf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -175,7 +241,19 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/slat64-technical-sheet-ar.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/assets/downloads/pdf/slat64-technical-sheet.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/wa45-technical-sheet-ar.pdf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -187,7 +265,19 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/wa55-technical-sheet-ar.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://ainzara.ly/assets/downloads/pdf/wa55-technical-sheet.pdf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ainzara.ly/assets/downloads/pdf/wat63-technical-sheet-ar.pdf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

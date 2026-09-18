@@ -476,10 +476,23 @@
         e.preventDefault();
         const raw = catBtn.getAttribute('data-download-catalog');
         const sysId = resolveSystemId(raw);
-        const url = `assets/downloads/pdf/${sysId}-technical-sheet.pdf`;
-        const filename = `AinZara_${sysId.toUpperCase()}_Technical_Sheet.pdf`;
+        const isAr = window.AinZaraI18n && window.AinZaraI18n.getLang() === 'ar';
+        const url = isAr ? `assets/downloads/pdf/${sysId}-technical-sheet-ar.pdf` : `assets/downloads/pdf/${sysId}-technical-sheet.pdf`;
+        const filename = isAr ? `AinZara_${sysId.toUpperCase()}_Technical_Sheet_AR.pdf` : `AinZara_${sysId.toUpperCase()}_Technical_Sheet.pdf`;
         triggerDownload(url, filename);
         return;
+      }
+
+      const masterBtn = e.target.closest('a[href*="AinZara-Master-Architectural-Catalog"]');
+      if (masterBtn) {
+        const isAr = window.AinZaraI18n && window.AinZaraI18n.getLang() === 'ar';
+        if (isAr) {
+          masterBtn.setAttribute('href', 'assets/downloads/pdf/AinZara-Master-Architectural-Catalog-ar.pdf');
+          masterBtn.setAttribute('download', 'AinZara-Master-Architectural-Catalog-ar.pdf');
+        } else {
+          masterBtn.setAttribute('href', 'assets/downloads/pdf/AinZara-Master-Architectural-Catalog.pdf');
+          masterBtn.setAttribute('download', 'AinZara-Master-Architectural-Catalog.pdf');
+        }
       }
 
       const cadBtn = e.target.closest('[data-download-cad]');

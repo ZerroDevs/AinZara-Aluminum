@@ -1,0 +1,117 @@
+/* ==========================================================================
+   AinZara-Aluminum Bidirectional RTL Overrides (Arabic Mode)
+   Font: Cairo
+   STRICT: Zero gradients, zero pink/purple hues
+   ========================================================================== */
+
+[dir="rtl"] {
+  font-family: var(--font-arabic), -apple-system, BlinkMacSystemFont, sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] body {
+  font-family: var(--font-arabic), -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Header & Navigation */
+[dir="rtl"] .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .dropdown-item {
+  text-align: right;
+}
+
+[dir="rtl"] .hero-subtitle {
+  border-left: none;
+  border-right: 3px solid var(--color-secondary-light);
+}
+
+[dir="rtl"] .hero-slider-nav {
+  right: auto;
+  left: 2rem;
+}
+
+@media (max-width: 639px) {
+  [dir="rtl"] .hero-slider-nav {
+    right: auto;
+    left: 1rem;
+  }
+}
+
+/* Mobile Navigation Drawer */
+[dir="rtl"] .mobile-drawer {
+  left: auto;
+  right: -320px;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+[dir="rtl"] .mobile-drawer.active {
+  transform: translateX(-320px);
+}
+
+[dir="rtl"] .drawer-accordion-btn {
+  text-align: right;
+}
+
+/* Stats */
+[dir="rtl"] .stat-item {
+  border-left: none;
+  border-right: 3px solid var(--color-secondary);
+  padding-left: 0;
+  padding-right: 1.25rem;
+}
+
+/* Cards & Spec Tables */
+[dir="rtl"] .spec-table th, 
+[dir="rtl"] .spec-table td {
+  text-align: right;
+}
+
+[dir="rtl"] .spec-table th {
+  border-right: none;
+  border-left: 1px solid var(--color-slate-light);
+}
+
+[dir="rtl"] .system-zoom-hint {
+  right: auto;
+  left: 0.75rem;
+}
+
+[dir="rtl"] .machinery-card {
+  border-left: 1px solid var(--color-border);
+  border-right: 4px solid var(--color-primary);
+}
+
+[dir="rtl"] .project-card-badge {
+  left: auto;
+  right: 1rem;
+}
+
+/* Lightbox Controls */
+[dir="rtl"] .lightbox-controls {
+  right: auto;
+  left: 1rem;
+}
+
+/* Footer */
+[dir="rtl"] .footer-col-title::after {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .footer-nav-link:hover {
+  padding-left: 0;
+  padding-right: 0.25rem;
+}
+
+/* Digits & Code Tags Stay LTR */
+[dir="rtl"] .phone-digits,
+[dir="rtl"] .system-series-tag,
+[dir="rtl"] .dropdown-item-code,
+[dir="rtl"] .stat-value {
+  direction: ltr;
+  display: inline-block;
+}

@@ -1,0 +1,133 @@
+/**
+ * Footer Component Loader & Lifecycle
+ * Injects assets/componts/footer.html into #footer-placeholder
+ * Provides embedded fallback for offline/local file:// protocol execution
+ */
+
+(function () {
+  'use strict';
+
+  const FOOTER_TEMPLATE = `<!-- Embedded Semantic Footer Fallback -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-col">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+          <img src="assets/Images/Logo.jpeg" alt="AinZara Logo" style="height: 50px; width: auto; background: #FFFFFF; padding: 4px; border-radius: 2px;">
+          <div>
+            <div style="font-size: 1.125rem; font-weight: 800; color: #FFFFFF;" data-i18n="brand_name">AIN ZARA</div>
+            <div style="font-size: 0.6875rem; color: #94A3B8; font-weight: 600;" data-i18n="brand_tagline">Glass Processing & Aluminum Manufacturing</div>
+          </div>
+        </div>
+        <p class="footer-about-text" data-i18n="footer_about">
+          Ain Zara is a premier industrial manufacturer in Tripoli, Libya, specializing in advanced architectural aluminum systems, curtain walls, thermal-break windows, and automated insulating glass processing (IGU, tempered, and acoustic safety glass).
+        </p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span class="badge badge-primary">ISO 9001</span>
+          <span class="badge badge-secondary">CE CERTIFIED</span>
+          <span class="badge badge-thermal">QUALICOAT</span>
+          <span class="badge badge-standard">EN 1279 IGU</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title" data-i18n="footer_nav_title">Corporate</div>
+        <ul class="footer-nav-list">
+          <li><a href="index.html" class="footer-nav-link" data-i18n="nav_home">Home</a></li>
+          <li><a href="about.html" class="footer-nav-link" data-i18n="nav_about">About Us & Machinery</a></li>
+          <li><a href="products.html" class="footer-nav-link" data-i18n="nav_products">Systems Matrix</a></li>
+          <li><a href="references.html" class="footer-nav-link" data-i18n="nav_references">Architectural References</a></li>
+          <li><a href="contact.html" class="footer-nav-link" data-i18n="nav_contact">Contact & Inquiry</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title" data-i18n="footer_systems_title">Systems</div>
+        <ul class="footer-nav-list">
+          <li><a href="category.html?cat=sliding" class="footer-nav-link"><span data-i18n="cat_sliding">Sliding Systems</span> (ARTOS)</a></li>
+          <li><a href="category.html?cat=door-window" class="footer-nav-link"><span data-i18n="cat_door_window">Doors & Windows</span> (HEKLA)</a></li>
+          <li><a href="category.html?cat=facade" class="footer-nav-link"><span data-i18n="cat_facade">Curtain Walls</span> (BROMO)</a></li>
+          <li><a href="category.html?cat=folding" class="footer-nav-link"><span data-i18n="cat_folding">Folding Doors</span> (NEPAL)</a></li>
+          <li><a href="category.html?cat=office" class="footer-nav-link"><span data-i18n="cat_office">Office Partitions</span> (IDA)</a></li>
+          <li><a href="category.html?cat=roof" class="footer-nav-link"><span data-i18n="cat_roof">Skylight Roofs</span> (URAL)</a></li>
+          <li><a href="category.html?cat=vertical" class="footer-nav-link"><span data-i18n="cat_vertical">Guillotine Vertical</span> (LOGAN)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title" data-i18n="footer_contact_title">Direct Inquiries</div>
+        <div class="footer-phones-list">
+          <div class="footer-phone-row">
+            <span class="footer-phone-number">+218 92 429 5050</span>
+            <div style="display: flex; gap: 0.375rem;">
+              <a href="tel:0924295050" class="icon-link" title="Call +218 92 429 5050" aria-label="Call +218 92 429 5050"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+              <a href="https://wa.me/218924295050" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" title="WhatsApp +218 92 429 5050" aria-label="WhatsApp +218 92 429 5050"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+            </div>
+          </div>
+          <div class="footer-phone-row">
+            <span class="footer-phone-number">+218 91 614 1616</span>
+            <div style="display: flex; gap: 0.375rem;">
+              <a href="tel:0916141616" class="icon-link" title="Call +218 91 614 1616" aria-label="Call +218 91 614 1616"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+              <a href="https://wa.me/218916141616" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" title="WhatsApp +218 91 614 1616" aria-label="WhatsApp +218 91 614 1616"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+            </div>
+          </div>
+          <div class="footer-phone-row">
+            <span class="footer-phone-number">+218 92 211 7555</span>
+            <div style="display: flex; gap: 0.375rem;">
+              <a href="tel:0922117555" class="icon-link" title="Call +218 92 211 7555" aria-label="Call +218 92 211 7555"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+              <a href="https://wa.me/218922117555" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" title="WhatsApp +218 92 211 7555" aria-label="WhatsApp +218 92 211 7555"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+            </div>
+          </div>
+          <div class="footer-phone-row">
+            <span class="footer-phone-number">+218 91 552 0267</span>
+            <div style="display: flex; gap: 0.375rem; align-items: center;">
+              <a href="tel:0915520267" class="icon-link" title="Call +218 91 552 0267" aria-label="Call +218 91 552 0267"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+              <span class="call-only-pill" data-i18n="call_only">Voice</span>
+            </div>
+          </div>
+          <div class="footer-phone-row">
+            <span class="footer-phone-number">+218 91 680 8225</span>
+            <div style="display: flex; gap: 0.375rem;">
+              <a href="tel:0916808225" class="icon-link" title="Call +218 91 680 8225" aria-label="Call +218 91 680 8225"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+              <a href="https://wa.me/218916808225" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" title="WhatsApp +218 91 680 8225" aria-label="WhatsApp +218 91 680 8225"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; <span id="footer-year">2026</span> <strong data-i18n="brand_name">AIN ZARA</strong>. <span data-i18n="copyright_rights">All Rights Reserved. Architectural Aluminum & Glass Processing.</span></div>
+      <div style="display: flex; gap: 1rem;">
+        <span data-i18n="location_tripoli">Tripoli, Libya</span>
+        <span>&bull;</span>
+        <a href="mailto:info@ainzara.ly" style="color: #94A3B8;">info@ainzara.ly</a>
+      </div>
+    </div>
+  </div>
+</footer>`;
+
+  async function loadFooter() {
+    const placeholder = document.getElementById('footer-placeholder');
+    if (!placeholder) return;
+
+    try {
+      const response = await fetch('assets/componts/footer.html');
+      if (!response.ok) throw new Error('Network error loading footer');
+      const html = await response.text();
+      placeholder.innerHTML = html;
+    } catch (err) {
+      placeholder.innerHTML = FOOTER_TEMPLATE;
+    }
+
+    // Set live year
+    const yearElem = document.getElementById('footer-year');
+    if (yearElem) {
+      yearElem.textContent = new Date().getFullYear();
+    }
+
+    document.dispatchEvent(new CustomEvent('footerLoaded'));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFooter);
+  } else {
+    loadFooter();
+  }
+})();

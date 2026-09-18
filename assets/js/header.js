@@ -1,0 +1,173 @@
+/**
+ * Header Component Loader & Lifecycle
+ * Injects assets/componts/header.html into #header-placeholder
+ * Provides embedded fallback for offline/local file:// protocol execution
+ */
+
+(function () {
+  'use strict';
+
+  const HEADER_TEMPLATE = `<!-- Embedded Semantic Header Fallback -->
+<header class="site-header">
+  <div class="header-topbar">
+    <div class="container">
+      <div class="topbar-contact-list">
+        <div class="topbar-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <a href="tel:0924295050" class="phone-digits">+218 92 429 5050</a>
+        </div>
+        <div class="topbar-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <a href="mailto:info@ainzara.ly">info@ainzara.ly</a>
+        </div>
+        <div class="topbar-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span data-i18n="header_location">Ain Zara, Industrial District, Tripoli, Libya</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="lang-btn" id="lang-toggle-btn" aria-label="Toggle Language">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span id="lang-label">العربية</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="header-main">
+    <div class="container">
+      <a href="index.html" class="brand-logo-link">
+        <img src="assets/Images/Logo.jpeg" alt="AinZara Logo" class="brand-logo-img">
+        <div class="brand-title-wrap">
+          <span class="brand-name" data-i18n="brand_name">AIN ZARA</span>
+          <span class="brand-tagline" data-i18n="brand_tagline">Glass Processing & Aluminum Manufacturing</span>
+        </div>
+      </a>
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link" data-nav="home" data-i18n="nav_home">Home</a>
+        <a href="about.html" class="nav-link" data-nav="about" data-i18n="nav_about">About Us</a>
+        <div class="nav-item-dropdown">
+          <a href="products.html" class="nav-link" data-nav="products">
+            <span data-i18n="nav_systems">Architectural Systems</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </a>
+          <div class="dropdown-menu">
+            <a href="category.html?cat=sliding" class="dropdown-item"><span data-i18n="cat_sliding">Sliding Systems</span><span class="dropdown-item-code">ARTOS</span></a>
+            <a href="category.html?cat=door-window" class="dropdown-item"><span data-i18n="cat_door_window">Door & Window Systems</span><span class="dropdown-item-code">HEKLA</span></a>
+            <a href="category.html?cat=facade" class="dropdown-item"><span data-i18n="cat_facade">Curtain Wall & Facades</span><span class="dropdown-item-code">BROMO</span></a>
+            <a href="category.html?cat=folding" class="dropdown-item"><span data-i18n="cat_folding">Folding Door Systems</span><span class="dropdown-item-code">NEPAL</span></a>
+            <a href="category.html?cat=office" class="dropdown-item"><span data-i18n="cat_office">Office Partitions</span><span class="dropdown-item-code">IDA</span></a>
+            <a href="category.html?cat=roof" class="dropdown-item"><span data-i18n="cat_roof">Skylight & Roof Systems</span><span class="dropdown-item-code">URAL</span></a>
+            <a href="category.html?cat=vertical" class="dropdown-item"><span data-i18n="cat_vertical">Vertical Guillotine Systems</span><span class="dropdown-item-code">LOGAN</span></a>
+          </div>
+        </div>
+        <a href="references.html" class="nav-link" data-nav="references" data-i18n="nav_references">References</a>
+        <a href="contact.html" class="nav-link" data-nav="contact" data-i18n="nav_contact">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <button type="button" class="btn-rfq" onclick="window.AinZaraApp && window.AinZaraApp.openRfqModal ? window.AinZaraApp.openRfqModal() : document.getElementById('rfq-modal').classList.add('active')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span data-i18n="btn_rfq">Request a Quote</span>
+        </button>
+        <button type="button" class="menu-toggle-btn" id="mobile-menu-toggle" aria-label="Open Navigation Menu">
+          <span class="menu-toggle-bar"></span><span class="menu-toggle-bar"></span><span class="menu-toggle-bar"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+  <div class="drawer-header">
+    <div class="drawer-title" data-i18n="mobile_nav_title">Navigation Menu</div>
+    <button type="button" class="drawer-close-btn" id="drawer-close-btn" aria-label="Close Menu">&times;</button>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-nav-list">
+      <div class="drawer-nav-item"><a href="index.html" class="drawer-nav-link" data-nav="home" data-i18n="nav_home">Home</a></div>
+      <div class="drawer-nav-item"><a href="about.html" class="drawer-nav-link" data-nav="about" data-i18n="nav_about">About Us</a></div>
+      <div class="drawer-nav-item">
+        <button type="button" class="drawer-accordion-btn" id="drawer-systems-btn" aria-expanded="false">
+          <span data-i18n="nav_systems">Architectural Systems</span>
+          <svg class="drawer-accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="drawer-accordion-content" id="drawer-systems-content">
+          <a href="products.html" class="drawer-sublink"><span data-i18n="cat_all">All Systems Matrix</span></a>
+          <a href="category.html?cat=sliding" class="drawer-sublink"><span data-i18n="cat_sliding">Sliding Systems</span><span class="dropdown-item-code">ARTOS</span></a>
+          <a href="category.html?cat=door-window" class="drawer-sublink"><span data-i18n="cat_door_window">Door & Window</span><span class="dropdown-item-code">HEKLA</span></a>
+          <a href="category.html?cat=facade" class="drawer-sublink"><span data-i18n="cat_facade">Curtain Wall Facade</span><span class="dropdown-item-code">BROMO</span></a>
+          <a href="category.html?cat=folding" class="drawer-sublink"><span data-i18n="cat_folding">Folding Doors</span><span class="dropdown-item-code">NEPAL</span></a>
+          <a href="category.html?cat=office" class="drawer-sublink"><span data-i18n="cat_office">Office Partitions</span><span class="dropdown-item-code">IDA</span></a>
+          <a href="category.html?cat=roof" class="drawer-sublink"><span data-i18n="cat_roof">Skylight & Roof</span><span class="dropdown-item-code">URAL</span></a>
+          <a href="category.html?cat=vertical" class="drawer-sublink"><span data-i18n="cat_vertical">Guillotine Vertical</span><span class="dropdown-item-code">LOGAN</span></a>
+        </div>
+      </div>
+      <div class="drawer-nav-item"><a href="references.html" class="drawer-nav-link" data-nav="references" data-i18n="nav_references">References</a></div>
+      <div class="drawer-nav-item"><a href="contact.html" class="drawer-nav-link" data-nav="contact" data-i18n="nav_contact">Contact</a></div>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <div style="font-size: 0.75rem; font-weight: 700; color: var(--color-slate-dark); text-transform: uppercase; margin-bottom: 0.5rem;" data-i18n="quick_contact">Direct Inquiries</div>
+    <div class="drawer-phone-list">
+      <div class="drawer-phone-item">
+        <span class="drawer-phone-number">+218 92 429 5050</span>
+        <div class="drawer-phone-actions">
+          <a href="tel:0924295050" class="icon-link" aria-label="Call +218 92 429 5050"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+          <a href="https://wa.me/218924295050" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" aria-label="WhatsApp +218 92 429 5050"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+        </div>
+      </div>
+      <div class="drawer-phone-item">
+        <span class="drawer-phone-number">+218 91 614 1616</span>
+        <div class="drawer-phone-actions">
+          <a href="tel:0916141616" class="icon-link" aria-label="Call +218 91 614 1616"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+          <a href="https://wa.me/218916141616" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" aria-label="WhatsApp +218 91 614 1616"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+        </div>
+      </div>
+      <div class="drawer-phone-item">
+        <span class="drawer-phone-number">+218 92 211 7555</span>
+        <div class="drawer-phone-actions">
+          <a href="tel:0922117555" class="icon-link" aria-label="Call +218 92 211 7555"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+          <a href="https://wa.me/218922117555" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" aria-label="WhatsApp +218 92 211 7555"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+        </div>
+      </div>
+      <div class="drawer-phone-item">
+        <span class="drawer-phone-number">+218 91 552 0267</span>
+        <div class="drawer-phone-actions">
+          <a href="tel:0915520267" class="icon-link" aria-label="Call +218 91 552 0267"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+          <span class="call-only-pill" data-i18n="call_only">Voice</span>
+        </div>
+      </div>
+      <div class="drawer-phone-item">
+        <span class="drawer-phone-number">+218 91 680 8225</span>
+        <div class="drawer-phone-actions">
+          <a href="tel:0916808225" class="icon-link" aria-label="Call +218 91 680 8225"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+          <a href="https://wa.me/218916808225" target="_blank" rel="noopener noreferrer" class="icon-link whatsapp" aria-label="WhatsApp +218 91 680 8225"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>`;
+
+  async function loadHeader() {
+    const placeholder = document.getElementById('header-placeholder');
+    if (!placeholder) return;
+
+    try {
+      const response = await fetch('assets/componts/header.html');
+      if (!response.ok) throw new Error('Network error loading header');
+      const html = await response.text();
+      placeholder.innerHTML = html;
+    } catch (err) {
+      // Fallback for file:// or offline mode
+      placeholder.innerHTML = HEADER_TEMPLATE;
+    }
+
+    // Dispatch event so navigation and i18n can initialize
+    document.dispatchEvent(new CustomEvent('headerLoaded'));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadHeader);
+  } else {
+    loadHeader();
+  }
+})();

@@ -1,0 +1,58 @@
+PROPRIETARY AND RESTRICTED SOURCE CODE & ASSET LICENSE
+
+Copyright (c) 2026 ZerroDevs (@ZerroDevs)
+All Rights Reserved.
+
+Developer: @ZerroDevs
+Profile: https://github.com/ZerroDevs
+Repository: https://github.com/ZerroDevs/AinZara-Aluminum
+
+================================================================================
+STRICT USAGE RESTRICTIONS — NO PERMISSION GRANTED
+================================================================================
+
+This software, including but not limited to all source code, markup files, 
+stylesheets, JavaScript logic, 3D WebGL geometries, kinematic animation algorithms,
+architectural BIM models (.ifc), CAD drawings (.dwg, .dxf), technical PDF catalogs,
+laboratory test certificates, graphic designs, images, and associated documentation 
+(collectively, the "Work"), is the exclusive, proprietary intellectual property of 
+ZerroDevs (@ZerroDevs) and Ain Zara Aluminum & Glass Processing.
+
+NO PERSON, ORGANIZATION, OR ENTITY IS GRANTED ANY LICENSE, RIGHT, TITLE, OR 
+PERMISSION TO USE, COPY, REPRODUCE, DISTRIBUTE, TRANSMIT, BROADCAST, DISPLAY, 
+PERFORM, SELL, RESELL, LEASE, LICENSE, SUBLICENSE, DECOMPILE, DISASSEMBLE, REVERSE 
+ENGINEER, CREATE DERIVATIVE WORKS FROM, OR EXPLOIT THIS WORK, IN WHOLE OR IN PART, 
+IN ANY FORM OR BY ANY MEANS, FOR ANY PURPOSE (WHETHER COMMERCIAL, NON-COMMERCIAL, 
+EDUCATIONAL, PRIVATE, OR PUBLIC), WITHOUT THE EXPRESS, ADVANCE, WRITTEN, AND SIGNED 
+CONSENT OF THE COPYRIGHT HOLDER (@ZerroDevs).
+
+UNDER NO CIRCUMSTANCES SHALL ANY THIRD PARTY:
+1. Clone, fork, mirror, download, or redistribute this repository or its assets 
+   for the purpose of hosting, re-branding, or deploying an alternative website, 
+   portal, or application.
+2. Extract, scrape, or extract any 3D WebGL mesh coordinates, parametric profile 
+   geometries, or kinematic animation algorithms contained in `profile-geometries.js`, 
+   `profile-3d.js`, or related files.
+3. Repackage, re-license, sell, or distribute the BIM/CAD files, architectural drawings, 
+   or Master Catalogs contained within this repository.
+4. Remove, alter, or obscure any copyright notice, trademark, watermark, author 
+   attribution, or legal disclosure affixed to or contained within this repository.
+
+TERMINATION & LEGAL REMEDIES:
+Any unauthorized copying, distribution, or utilization of this Work constitutes a 
+direct violation of international copyright laws, trade secret regulations, and 
+intellectual property treaties. Any such unauthorized act immediately subjects the 
+infringing party to legal prosecution, statutory damages, and injunctive relief.
+
+DISCLAIMER OF WARRANTY:
+THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR OR COPYRIGHT 
+HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION 
+OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE 
+WORK OR THE USE OR OTHER DEALINGS IN THE WORK.
+
+For licensing inquiries or authorized deployment requests, contact:
+Developer: ZerroDevs
+GitHub Profile: https://github.com/ZerroDevs
+Official Repository: https://github.com/ZerroDevs/AinZara-Aluminum

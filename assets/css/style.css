@@ -3297,6 +3297,33 @@ ul, ol {
   color: #78350F;
 }
 
+.modal-disclaimer-close-btn {
+  background: none;
+  border: none;
+  color: #B45309;
+  font-size: 1.35rem;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.modal-disclaimer-close-btn:hover {
+  color: #78350F;
+  background-color: rgba(217, 119, 6, 0.15);
+}
+
+[dir="rtl"] .modal-disclaimer-close-btn {
+  margin-left: 0;
+  margin-right: auto;
+}
+
 .modal-3d-window .viewer-3d-disclaimer,
 .modal-3d-window .viewer-3d-disclaimer-restore {
   display: none !important;
@@ -3358,25 +3385,45 @@ ul, ol {
 }
 
 /* Fullscreen 3D Modal Inspection Window */
+.modal-3d-backdrop {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.5rem, 2vh, 1.5rem);
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.modal-3d-backdrop.active {
+  display: flex;
+}
+
 .modal-3d-window {
   max-width: 1040px;
   width: 95%;
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
   background-color: #FFFFFF;
   border-radius: var(--radius-md);
-  overflow: hidden;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   box-shadow: 0 20px 40px rgba(7, 37, 61, 0.4);
+  margin: auto;
 }
 
 .modal-3d-header {
   background-color: var(--color-primary-dark);
   color: #FFFFFF;
-  padding: 1.25rem 1.75rem;
+  padding: 1.15rem 1.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid var(--color-secondary);
+  flex-shrink: 0;
 }
 
 .modal-3d-badge {
@@ -3399,6 +3446,13 @@ ul, ol {
   padding: 0;
   background-color: #F8FAFC;
   position: relative;
+  flex-shrink: 0;
+}
+
+#modal-3d-viewport {
+  width: 100%;
+  height: clamp(320px, 48vh, 500px);
+  position: relative;
 }
 
 .modal-3d-footer {
@@ -3410,6 +3464,9 @@ ul, ol {
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
 }
 
 .modal-3d-specs {
@@ -3423,6 +3480,155 @@ ul, ol {
 .modal-3d-specs span strong {
   color: var(--color-primary);
   font-weight: 700;
+}
+
+/* ==========================================================================
+   Tablet & Short-Screen Optimization for 3D Inspection Modal
+   (iPad Portrait/Landscape, Android Tablets, Screen Height <= 850px)
+   ========================================================================== */
+@media (max-width: 1180px), (max-height: 850px) {
+  .modal-3d-backdrop {
+    padding: clamp(6px, 1.5vh, 16px);
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-3d-window {
+    width: 96%;
+    max-width: 960px;
+    max-height: 94vh !important;
+    max-height: 94dvh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    margin: auto;
+  }
+
+  .modal-3d-header {
+    padding: 0.85rem 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .modal-3d-header .modal-title {
+    font-size: 1.05rem;
+  }
+
+  .modal-3d-sub {
+    font-size: 0.75rem;
+  }
+
+  .modal-3d-disclaimer {
+    margin: 0.5rem 1rem 0.35rem 1rem;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .modal-3d-disclaimer .disclaimer-badge {
+    padding: 2px 6px;
+    font-size: 0.625rem;
+  }
+
+  #modal-3d-viewport {
+    height: clamp(260px, 44vh, 380px) !important;
+  }
+
+  .modal-3d-footer {
+    padding: 0.75rem 1.25rem;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .modal-3d-specs {
+    font-size: 0.75rem;
+    gap: 1rem;
+  }
+
+  #modal-3d-rfq-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  .viewer-3d-hud {
+    bottom: 8px;
+    gap: 5px;
+  }
+
+  .hud-btn {
+    height: 30px;
+    padding: 0 8px;
+    font-size: 0.71875rem;
+  }
+}
+
+/* Landscape Tablet & Compact Viewport Height (iPad in Landscape, Height <= 720px) */
+@media (max-height: 720px) {
+  .modal-3d-backdrop {
+    padding: 4px 6px;
+    overflow-y: auto !important;
+  }
+
+  .modal-3d-window {
+    max-height: 96vh !important;
+    max-height: 96dvh !important;
+    overflow-y: auto !important;
+    margin: auto;
+  }
+
+  .modal-3d-header {
+    padding: 0.55rem 1rem;
+  }
+
+  .modal-3d-header .modal-title {
+    font-size: 0.95rem;
+  }
+
+  .modal-3d-sub {
+    font-size: 0.6875rem;
+  }
+
+  .modal-3d-disclaimer {
+    margin: 0.35rem 0.75rem 0.25rem 0.75rem;
+    padding: 4px 8px;
+    font-size: 0.6875rem;
+    line-height: 1.25;
+  }
+
+  #modal-3d-viewport {
+    height: clamp(210px, 38vh, 280px) !important;
+    min-height: 200px;
+  }
+
+  .modal-3d-footer {
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .modal-3d-specs {
+    font-size: 0.6875rem;
+    gap: 0.75rem;
+  }
+
+  #modal-3d-rfq-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .viewer-3d-hud {
+    bottom: 6px;
+    gap: 4px;
+  }
+
+  .hud-btn {
+    height: 28px;
+    padding: 0 6px;
+    font-size: 0.6875rem;
+  }
+
+  .hud-btn svg {
+    width: 13px;
+    height: 13px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -3537,7 +3743,7 @@ ul, ol {
     padding: 8px 6px;
     align-items: center;
     justify-content: center;
-    overflow-y: auto;
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -3552,6 +3758,7 @@ ul, ol {
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    margin: auto;
   }
 
   .modal-3d-header {

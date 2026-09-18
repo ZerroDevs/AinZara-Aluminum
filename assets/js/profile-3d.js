@@ -1202,9 +1202,10 @@
             <span data-i18n="badge_disclaimer_notice">IMPORTANT NOTE</span>
           </div>
           <span class="disclaimer-text" data-i18n="note_3d_disclaimer">Interactive 3D representation • This is for demonstration purposes only and may not accurately reflect physical reality • For exact manufacturing specifications refer to official 2D CAD schematic</span>
+          <button type="button" class="modal-disclaimer-close-btn" title="Dismiss note / إخفاء الملاحظة" aria-label="Dismiss note">&times;</button>
         </div>
         <div class="modal-body modal-3d-body">
-          <div id="modal-3d-viewport" style="width: 100%; height: 520px; position: relative;"></div>
+          <div id="modal-3d-viewport"></div>
         </div>
         <div class="modal-3d-footer">
           <div class="modal-3d-specs" id="modal-3d-specs">
@@ -1221,6 +1222,17 @@
 
     const closeBtn = modal.querySelector('#modal-3d-close');
     closeBtn.addEventListener('click', closeModal);
+
+    const modalDisclaimer = modal.querySelector('.modal-3d-disclaimer');
+    const modalDisclaimerClose = modal.querySelector('.modal-disclaimer-close-btn');
+    if (modalDisclaimerClose && modalDisclaimer) {
+      modalDisclaimerClose.addEventListener('click', () => {
+        modalDisclaimer.style.display = 'none';
+        if (modalViewer && modalViewer.onResize) {
+          setTimeout(() => modalViewer.onResize(), 40);
+        }
+      });
+    }
 
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
@@ -1261,6 +1273,9 @@
     }
     if (rfqBtn) rfqBtn.setAttribute('data-system', modelId);
 
+    const modalDisclaimer = modal.querySelector('.modal-3d-disclaimer');
+    if (modalDisclaimer) modalDisclaimer.style.display = '';
+
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 
@@ -1283,8 +1298,9 @@
       modalViewer.resetCamera();
     }
 
+    // Trigger onResize to adapt to current tablet/desktop viewport dimensions
     setTimeout(() => {
-      if (modalViewer) {
+      if (modalViewer && modalViewer.onResize) {
         modalViewer.onResize();
       }
     }, 80);
